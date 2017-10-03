@@ -1,10 +1,12 @@
+read user
+
 if [[ $user = r ]]; then
-	user = rsurti2
+	net_id = "rsurti2"
 elif [[ $user = s ]]; then
-	user = ssaxen4
+	net_id = "ssaxen4"
 fi
 
-cd /home/$(user)/ECE428_mp2/src
+cd /home/$net_id/ECE428_mp2/src
 rm ece428/mp1/*.class
 javac -cp . ece428/mp1/*.java
 java -cp . ece428/mp1/Main
