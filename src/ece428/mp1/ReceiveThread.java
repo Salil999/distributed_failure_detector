@@ -15,8 +15,8 @@ public class ReceiveThread implements Callable {
     public ReceiveThread() throws IOException {
         this.connection = new Connection(
                 InetAddress.getByName("fa17-cs425-g39-0" + this.bufferedReader.readLine() + ".cs.illinois.edu"),
-                1234,
-                new DatagramSocket(1234),
+                9090,
+                new DatagramSocket(9090),
                 new byte[4096]
         );
     }
@@ -24,8 +24,8 @@ public class ReceiveThread implements Callable {
     public ReceiveThread(final byte[] byteStream) throws IOException {
         this.connection = new Connection(
                 InetAddress.getByName("fa17-cs425-g39-0" + this.bufferedReader.readLine() + ".cs.illinois.edu"),
-                1234,
-                new DatagramSocket(1234),
+                9090,
+                new DatagramSocket(9090),
                 byteStream
         );
     }
