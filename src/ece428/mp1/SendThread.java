@@ -1,22 +1,33 @@
 package ece428.mp1;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.concurrent.Callable;
 
 public class SendThread implements Callable {
+    final BufferedReader bufferedReader = new BufferedReader(new FileReader("../number.txt"));
     private final Connection connection;
 
-    public SendThread() throws SocketException, UnknownHostException {
-        this.connection = new Connection(new DatagramSocket(1234), new byte[4096]);
-        this.connection.setPort(1234);
-        this.connection.setHost(InetAddress.getLocalHost());
+    public SendThread() throws IOException {
+        this.connection = new Connection(
+                InetAddress.getByName("fa17-cs425-g39-0" + this.bufferedReader.readLine() + ".cs.illinois.edu"),
+                1234,
+                new DatagramSocket(1234),
+                new byte[4096]
+        );
     }
 
-    public SendThread(final byte[] byteStream) throws SocketException, UnknownHostException {
-        this.connection = new Connection(new DatagramSocket(1234), byteStream);
-        this.connection.setPort(1234);
-        this.connection.setHost(InetAddress.getLocalHost());
+    public SendThread(final byte[] byteStream) throws IOException {
+        this.connection = new Connection(
+                InetAddress.getByName("fa17-cs425-g39-0" + this.bufferedReader.readLine() + ".cs.illinois.edu"),
+                1234,
+                new DatagramSocket(1234),
+                new byte[4096]
+        );
     }
 
     @Override

@@ -1,4 +1,10 @@
-cd /home/ssaxen4/ECE428_mp2/src
+if [[ $user = r ]]; then
+	user = rsurti2
+elif [[ $user = s ]]; then
+	user = ssaxen4
+fi
+
+cd /home/$(user)/ECE428_mp2/src
 rm ece428/mp1/*.class
 javac -cp . ece428/mp1/*.java
-java -cp . ece428/mp1/StartClient
+java -cp . ece428/mp1/Main

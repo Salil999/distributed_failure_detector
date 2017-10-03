@@ -9,10 +9,6 @@ public class Connection {
     private DatagramSocket datagramSocket;
     private byte[] byteStream;
 
-
-    public Connection() {
-    }
-
     public Connection(final DatagramSocket datagramSocket, final byte[] byteStream) {
         this.datagramSocket = datagramSocket;
         this.byteStream = byteStream;
@@ -22,7 +18,6 @@ public class Connection {
         this.host = host;
         this.port = port;
     }
-
 
     public Connection(final InetAddress host, final Integer port, final DatagramSocket datagramSocket, final byte[] byteStream) {
         this.host = host;

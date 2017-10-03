@@ -2,7 +2,6 @@ package ece428.mp1;
 
 
 import java.io.IOException;
-import java.net.SocketException;
 
 public class Servent {
     MembershipList membershipList;
@@ -17,11 +16,11 @@ public class Servent {
         this.membershipList = new MembershipList();
     }
 
-    public void startServent() throws SocketException, IOException, InterruptedException {
-        final SendThread sendThread = new SendThread();
-        final ReceiveThread receiveThread = new ReceiveThread();
-        sendThread.call();
-        receiveThread.call();
+    public void startServent() throws IOException, InterruptedException {
+        this.sendThread = new SendThread();
+        this.receiveThread = new ReceiveThread();
+        this.sendThread.call();
+        this.receiveThread.call();
     }
 
     public void closeConnection() throws IOException {
