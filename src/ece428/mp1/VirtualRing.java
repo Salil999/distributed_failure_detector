@@ -1,5 +1,7 @@
 package ece428.mp1;
 
+import java.util.ArrayList;
+
 public class VirtualRing {
-    private static Integer x;
+    public static ArrayList<Client> clientArrayList;
 }

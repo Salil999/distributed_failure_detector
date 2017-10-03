@@ -2,20 +2,30 @@ package ece428.mp1;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
+import java.net.DatagramSocket;
+import java.util.TimerTask;
 
-public class Client {
+public class Client implements Runnable {
+    Thread t1;
     DataOutputStream dataOutputStream;
     Boolean isAvailable;
+    MembershipList membershipList;
+    DatagramSocket datagramSocket;
     private Connection connection;
 
     public Client() {
+        this.membershipList = new MembershipList();
     }
 
     public Client(final String hostName, final Integer port) {
         this.connection = new Connection();
         this.connection.setHost(hostName);
         this.connection.setPort(port);
+        this.membershipList = new MembershipList();
+    }
+
+    @Override
+    public void run() {
     }
 
     private void clearVars() {
@@ -23,23 +33,20 @@ public class Client {
         this.connection = null;
     }
 
+    private void heartbeatDetection() throws IOException {
+        final TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Test");
+            }
+        };
+    }
+
     public void closeConnection() throws IOException {
-        try {
-            this.connection.getSocket().close();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
-        this.isAvailable = false;
     }
 
     public void openConnection() throws IOException {
-        try {
-            this.connection.setSocket(new Socket(this.connection.getHost(), this.connection.getPort()));
-        } catch (final IOException e) {
-            e.printStackTrace();
-            this.isAvailable = false;
-        }
-        this.dataOutputStream = new DataOutputStream(this.connection.getSocket().getOutputStream());
+
         this.isAvailable = true;
     }
 

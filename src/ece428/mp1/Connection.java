@@ -1,73 +1,70 @@
 package ece428.mp1;
 
-import java.net.Socket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 public class Connection {
-    private String host;
+    private InetAddress host;
     private Integer port;
-    private Socket socket;
+    private DatagramSocket datagramSocket;
+    private byte[] byteStream;
 
 
     public Connection() {
     }
 
+    public Connection(final DatagramSocket datagramSocket, final byte[] byteStream) {
+        this.datagramSocket = datagramSocket;
+        this.byteStream = byteStream;
+    }
 
-    public Connection(final String host, final Integer port, final Socket socket) {
+    public Connection(final InetAddress host, final Integer port) {
         this.host = host;
         this.port = port;
-        this.socket = socket;
     }
 
 
-    /**
-     * @return The socket that the connection holds.
-     */
-    public Socket getSocket() {
-        return socket;
+    public Connection(final InetAddress host, final Integer port, final DatagramSocket datagramSocket, final byte[] byteStream) {
+        this.host = host;
+        this.port = port;
+        this.datagramSocket = datagramSocket;
+        this.byteStream = byteStream;
     }
 
-
-    /**
-     * Sets the host name.
-     *
-     * @param socket The socket that you want the connection to hold.
-     */
-    public void setSocket(final Socket socket) {
-        this.socket = socket;
+    public DatagramSocket getDatagramSocket() {
+        return this.datagramSocket;
     }
 
+    public void setDatagramSocket(final DatagramSocket datagramSocket) {
+        this.datagramSocket = datagramSocket;
+    }
+
+    public byte[] getByteStream() {
+        return this.byteStream;
+    }
+
+    public void setByteStream(final byte[] byteStream) {
+        this.byteStream = byteStream;
+    }
 
     /**
      * @return The host name that the connection holds.
      */
-    public String getHost() {
-        return host;
+    public InetAddress getHost() {
+        return this.host;
     }
 
-
-    /**
-     * Sets the host name.
-     *
-     * @param host The host name that you want the connection to hold.
-     */
-    public void setHost(final String host) {
+    public void setHost(final InetAddress host) {
         this.host = host;
     }
-
 
     /**
      * @return The port that the connection holds.
      */
     public Integer getPort() {
-        return port;
+        return this.port;
     }
 
-
-    /**
-     * Sets the port.
-     *
-     * @param port The port that you want the connection to hold.
-     */
     public void setPort(final Integer port) {
         this.port = port;
     }

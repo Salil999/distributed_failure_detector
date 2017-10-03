@@ -1,5 +1,7 @@
 package ece428.mp1;
 
-public class MembershipList {
+import java.util.ArrayList;
 
+public class MembershipList {
+    private ArrayList<MembershipListEntry> listEntries;
 }
