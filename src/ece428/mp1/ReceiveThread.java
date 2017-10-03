@@ -34,6 +34,7 @@ public class ReceiveThread implements Callable {
     public Object call() throws IOException {
         DatagramPacket receivePacket;
         String membershipList;
+        System.out.println("ReceiveThread: " + this.connection.getHost());
         while (true) {
             // change this to membership list
             receivePacket = new DatagramPacket(this.connection.getByteStream(), this.connection.getByteStream().length);

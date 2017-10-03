@@ -32,6 +32,7 @@ public class SendThread implements Callable {
 
     @Override
     public Object call() throws IOException, InterruptedException {
+        System.out.println("SendThread: " + this.connection.getHost());
         while (true) {
             Thread.sleep(500);
             System.out.println("Sending packet...");
