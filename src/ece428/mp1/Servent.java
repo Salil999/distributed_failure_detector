@@ -20,7 +20,7 @@ public class Servent {
         this.sendThread = new SendThread();
         this.receiveThread = new ReceiveThread();
         this.sendThread.call();
-        this.receiveThread.call();
+//        this.receiveThread.call();
     }
 
     public void closeConnection() throws IOException {
