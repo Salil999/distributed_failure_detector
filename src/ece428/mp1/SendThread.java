@@ -19,6 +19,7 @@ public class SendThread implements Callable {
         } else {
             this.number = 1;
         }
+        System.out.println(this.number);
         this.connection = new Connection(
                 InetAddress.getByName("fa17-cs425-g39-0" + this.number + ".cs.illinois.edu"),
                 9090,

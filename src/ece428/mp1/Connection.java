@@ -4,6 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class Connection {
+    public InetAddress otherHost;
     private InetAddress host;
     private Integer port;
     private DatagramSocket datagramSocket;
