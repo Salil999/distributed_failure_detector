@@ -11,10 +11,16 @@ import java.util.concurrent.Callable;
 public class SendThread implements Callable {
     final BufferedReader bufferedReader = new BufferedReader(new FileReader("../number.txt"));
     private final Connection connection;
+    Integer number = Integer.parseInt(this.bufferedReader.readLine());
 
     public SendThread() throws IOException {
+        if (this.number == 1) {
+            this.number = 2;
+        } else {
+            this.number = 1;
+        }
         this.connection = new Connection(
-                InetAddress.getByName("fa17-cs425-g39-0" + this.bufferedReader.readLine() + ".cs.illinois.edu"),
+                InetAddress.getByName("fa17-cs425-g39-0" + this.number + ".cs.illinois.edu"),
                 9090,
                 new DatagramSocket(9090),
                 new byte[4096]
@@ -23,7 +29,7 @@ public class SendThread implements Callable {
 
     public SendThread(final byte[] byteStream) throws IOException {
         this.connection = new Connection(
-                InetAddress.getByName("fa17-cs425-g39-0" + this.bufferedReader.readLine() + ".cs.illinois.edu"),
+                InetAddress.getByName("fa17-cs425-g39-0" + this.number + ".cs.illinois.edu"),
                 9090,
                 new DatagramSocket(9090),
                 new byte[4096]
