@@ -41,7 +41,7 @@ public class Servent {
     }
 
     public void startServer() {
-        (new Thread() {
+        new Thread() {
             @Override
             public void run() {
                 System.out.println("Starting Server...");
@@ -71,11 +71,11 @@ public class Servent {
                 }
 
             }
-        }).start();
+        }.start();
     }
 
     public void startClient() {
-        (new Thread() {
+        new Thread() {
             @Override
             public void run() {
                 System.out.println("Starting Client...");
@@ -105,6 +105,6 @@ public class Servent {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }.start();
     }
 }
