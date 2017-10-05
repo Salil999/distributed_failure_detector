@@ -81,25 +81,26 @@ public class Servent {
                 System.out.println("Starting Client...");
                 final byte[] incomingByteStream = new byte[4096];
                 try {
-                    final int port = Servent.this.connection.getPort() + 1;
-                    Servent.this.socketClient = new DatagramSocket(
-                            port,
-                            Servent.this.connection.getHost()
-                    );
-                    final byte[] data = "This is a message from client".getBytes();
+                    while (true) {
+                        final int port = Servent.this.connection.getPort() + 1;
+                        Servent.this.socketClient = new DatagramSocket(
+                                port,
+                                Servent.this.connection.getHost()
+                        );
+                        final byte[] data = "This is a message from client".getBytes();
 
-                    final DatagramPacket sendPacket = new DatagramPacket(
-                            data, data.length,
-                            Servent.this.connection.getHost(), port
-                    );
-                    Servent.this.socketClient.send(sendPacket);
+                        final DatagramPacket sendPacket = new DatagramPacket(
+                                data, data.length,
+                                Servent.this.connection.getHost(), port
+                        );
+                        Servent.this.socketClient.send(sendPacket);
 
-                    System.out.println("Message from client: ");
-                    final DatagramPacket incomingPacket = new DatagramPacket(
-                            incomingByteStream, incomingByteStream.length);
-                    final String response = new String(incomingPacket.getData());
-                    System.out.println(response);
-
+                        System.out.println("Message from client: ");
+                        final DatagramPacket incomingPacket = new DatagramPacket(
+                                incomingByteStream, incomingByteStream.length);
+                        final String response = new String(incomingPacket.getData());
+                        System.out.println(response);
+                    }
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
                     e.printStackTrace();
