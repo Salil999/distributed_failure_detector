@@ -73,7 +73,7 @@ public class Servent {
             public void run() {
                 final byte[] incomingByteStream = new byte[4096];
                 try {
-                    Servent.this.socketClient = new DatagramSocket(Servent.this.connection.getPort());
+                    Servent.this.socketClient = new DatagramSocket(Servent.this.connection.getPort() + 1);
                     final InetAddress inetAddress = Servent.this.connection.getHost();
                     final byte[] data = "This is a message from client".getBytes();
 
@@ -88,7 +88,7 @@ public class Servent {
                             incomingByteStream, incomingByteStream.length);
                     final String response = new String(incomingPacket.getData());
                     System.out.println(response);
-                    
+
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
                     e.printStackTrace();
