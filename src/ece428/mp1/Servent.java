@@ -85,12 +85,11 @@ public class Servent {
                             port,
                             Servent.this.connection.getHost()
                     );
-                    final InetAddress inetAddress = Servent.this.connection.getHost();
                     final byte[] data = "This is a message from client".getBytes();
 
                     final DatagramPacket sendPacket = new DatagramPacket(
                             data, data.length,
-                            inetAddress, Servent.this.socketClient.getPort()
+                            Servent.this.connection.getHost(), port
                     );
                     Servent.this.socketClient.send(sendPacket);
 
