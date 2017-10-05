@@ -48,7 +48,10 @@ public class Servent {
                         final DatagramPacket incomingPacket = new DatagramPacket(
                                 incomingByteStream, incomingByteStream.length
                         );
-                        Servent.this.serverSocket = new DatagramSocket(Servent.this.connection.getPort());
+                        Servent.this.serverSocket = new DatagramSocket(
+                                Servent.this.connection.getPort(),
+                                Servent.this.connection.getHost()
+                        );
                         Servent.this.serverSocket.receive(incomingPacket);
                         final String message = new String(incomingPacket.getData());
                         System.out.println("Received from Client: " + message);
@@ -73,13 +76,16 @@ public class Servent {
             public void run() {
                 final byte[] incomingByteStream = new byte[4096];
                 try {
-                    Servent.this.socketClient = new DatagramSocket(Servent.this.connection.getPort() + 1);
+                    Servent.this.socketClient = new DatagramSocket(
+                            Servent.this.connection.getPort(),
+                            Servent.this.connection.getHost()
+                    );
                     final InetAddress inetAddress = Servent.this.connection.getHost();
                     final byte[] data = "This is a message from client".getBytes();
 
                     final DatagramPacket sendPacket = new DatagramPacket(
                             data, data.length,
-                            inetAddress, Servent.this.socketClient.getPort() + 1
+                            inetAddress, Servent.this.socketClient.getPort()
                     );
                     Servent.this.socketClient.send(sendPacket);
 
