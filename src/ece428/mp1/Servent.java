@@ -57,11 +57,13 @@ public class Servent {
                         Servent.this.serverSocket.receive(incomingPacket);
                         final String message = new String(incomingPacket.getData());
                         System.out.println("Received from Client: " + message);
+
                         final byte[] data = "Thanks for the message!".getBytes();
                         final DatagramPacket outgoingPacket = new DatagramPacket(
                                 data, data.length, incomingPacket.getAddress(), incomingPacket.getPort()
                         );
                         Servent.this.serverSocket.send(outgoingPacket);
+                        System.out.println("Running");
                     }
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
@@ -78,8 +80,9 @@ public class Servent {
             public void run() {
                 final byte[] incomingByteStream = new byte[4096];
                 try {
+                    final int port = Servent.this.connection.getPort() + 1;
                     Servent.this.socketClient = new DatagramSocket(
-                            Servent.this.connection.getPort(),
+                            port,
                             Servent.this.connection.getHost()
                     );
                     final InetAddress inetAddress = Servent.this.connection.getHost();
@@ -91,11 +94,11 @@ public class Servent {
                     );
                     Servent.this.socketClient.send(sendPacket);
 
-                    System.out.println("Message from client: ");
-                    final DatagramPacket incomingPacket = new DatagramPacket(
-                            incomingByteStream, incomingByteStream.length);
-                    final String response = new String(incomingPacket.getData());
-                    System.out.println(response);
+//                    System.out.println("Message from client: ");
+//                    final DatagramPacket incomingPacket = new DatagramPacket(
+//                            incomingByteStream, incomingByteStream.length);
+//                    final String response = new String(incomingPacket.getData());
+//                    System.out.println(response);
 
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
@@ -104,5 +107,4 @@ public class Servent {
             }
         }).start();
     }
-
 }
