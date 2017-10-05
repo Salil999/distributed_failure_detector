@@ -79,7 +79,7 @@ public class Servent {
 
                     final DatagramPacket sendPacket = new DatagramPacket(
                             data, data.length,
-                            Servent.this.socketClient.getInetAddress(), Servent.this.socketClient.getPort()
+                            inetAddress, Servent.this.socketClient.getPort()
                     );
                     Servent.this.socketClient.send(sendPacket);
 
