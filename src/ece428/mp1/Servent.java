@@ -31,7 +31,7 @@ public class Servent {
             e.printStackTrace();
             System.out.println(e.getLocalizedMessage());
         }
-        this.connection = new Connection(inetAddress, 1000);
+        this.connection = new Connection(inetAddress, 1234);
     }
 
     public void startServent() {
