@@ -1,29 +1,100 @@
 package ece428.mp1;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Servent {
-    MembershipList membershipList;
-    SendThread sendThread;
-    ReceiveThread receiveThread;
+    private final Integer machineNumber = Integer.parseInt(new BufferedReader(new FileReader("../number.txt")).readLine());
+    private final MembershipList membershipList;
+    private final Connection connection;
 
-    public Servent() {
+    private DatagramSocket socketClient;
+    private DatagramSocket serverSocket;
+
+    public Servent() throws IOException {
         this.membershipList = new MembershipList();
+        InetAddress inetAddress = null;
+
+        try {
+            inetAddress = InetAddress.getByName("fa17-cs425-g39-0" + this.machineNumber.toString() + ".cs.illinois.edu");
+            if (this.machineNumber == 10) {
+                inetAddress = InetAddress.getByName("fa17-cs425-g39-" + this.machineNumber.toString() + ".cs.illinois.edu");
+            }
+        } catch (final UnknownHostException e) {
+            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
+        }
+        this.connection = new Connection(inetAddress, 1234);
     }
 
-    public Servent(final String hostName, final Integer port) {
-        this.membershipList = new MembershipList();
+    public void startServent() {
+        startServer();
+        startClient();
     }
 
-    public void startServent() throws IOException, InterruptedException {
-        this.sendThread = new SendThread();
-        this.receiveThread = new ReceiveThread();
-        this.sendThread.call();
-//        this.receiveThread.call();
+    public void startServer() {
+        (new Thread() {
+            @Override
+            public void run() {
+                final byte[] incomingByteStream = new byte[4096];
+                try {
+                    while (true) {
+                        final DatagramPacket incomingPacket = new DatagramPacket(
+                                incomingByteStream, incomingByteStream.length
+                        );
+                        Servent.this.serverSocket = new DatagramSocket(Servent.this.connection.getPort());
+                        Servent.this.serverSocket.receive(incomingPacket);
+                        final String message = new String(incomingPacket.getData());
+                        System.out.println("Received from Client: " + message);
+                        final byte[] data = "Thanks for the message!".getBytes();
+                        final DatagramPacket outgoingPacket = new DatagramPacket(
+                                data, data.length, incomingPacket.getAddress(), incomingPacket.getPort()
+                        );
+                        Servent.this.serverSocket.send(outgoingPacket);
+                    }
+                } catch (final IOException e) {
+                    System.out.println(e.getLocalizedMessage());
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
     }
 
-    public void closeConnection() throws IOException {
+    public void startClient() {
+        (new Thread() {
+            @Override
+            public void run() {
+                final byte[] incomingByteStream = new byte[4096];
+                try {
+                    Servent.this.socketClient = new DatagramSocket(Servent.this.connection.getPort());
+                    final InetAddress inetAddress = Servent.this.connection.getHost();
+                    final byte[] data = "This is a message from client".getBytes();
+
+                    final DatagramPacket sendPacket = new DatagramPacket(
+                            data, data.length,
+                            Servent.this.socketClient.getInetAddress(), Servent.this.socketClient.getPort()
+                    );
+                    Servent.this.socketClient.send(sendPacket);
+
+                    System.out.println("Message from client: ");
+                    final DatagramPacket incomingPacket = new DatagramPacket(
+                            incomingByteStream, incomingByteStream.length);
+                    final String response = new String(incomingPacket.getData());
+                    System.out.println(response);
+                    
+                } catch (final IOException e) {
+                    System.out.println(e.getLocalizedMessage());
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 }
