@@ -100,6 +100,7 @@ public class Servent {
                                 incomingByteStream, incomingByteStream.length);
                         final String response = new String(incomingPacket.getData());
                         System.out.println(response);
+                        Servent.this.socketClient.close();
                     }
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
