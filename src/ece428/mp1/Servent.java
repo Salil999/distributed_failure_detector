@@ -78,6 +78,7 @@ public class Servent {
 
     public MembershipList getMembershipList() {
 //        return this.membershipList;
+        return null;
     }
 
     public void startServent() {
