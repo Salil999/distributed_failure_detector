@@ -45,13 +45,13 @@ public class Servent {
             @Override
             public void run() {
                 System.out.println("Starting Server...");
-                final byte[] incomingByteStream = new byte[4096];
                 try {
                     Servent.this.serverSocket = new DatagramSocket(
                             Servent.this.connection.getPort(),
                             Servent.this.connection.getHost()
                     );
                     while (true) {
+                        final byte[] incomingByteStream = new byte[1024];
                         final DatagramPacket incomingPacket = new DatagramPacket(
                                 incomingByteStream, incomingByteStream.length
                         );
@@ -79,7 +79,7 @@ public class Servent {
             @Override
             public void run() {
                 System.out.println("Starting Client...");
-                final byte[] incomingByteStream = new byte[4096];
+                final byte[] incomingByteStream = new byte[1024];
                 try {
                     while (true) {
                         final int port = Servent.this.connection.getPort() + 1;
@@ -94,12 +94,11 @@ public class Servent {
                                 Servent.this.connection.getHost(), port
                         );
                         Servent.this.socketClient.send(sendPacket);
-
-                        System.out.println("Message from client: ");
                         final DatagramPacket incomingPacket = new DatagramPacket(
                                 incomingByteStream, incomingByteStream.length);
-                        final String response = new String(incomingPacket.getData());
-                        System.out.println(response);
+                        System.out.println("Message from client: " + new String(incomingPacket.getData()));
+//                        final String response = new String(incomingPacket.getData());
+//                        System.out.println(response);
                         Servent.this.socketClient.close();
                     }
                 } catch (final IOException e) {
