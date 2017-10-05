@@ -31,7 +31,11 @@ public class Servent {
             e.printStackTrace();
             System.out.println(e.getLocalizedMessage());
         }
-        this.connection = new Connection(inetAddress, 1234);
+        this.connection = new Connection(inetAddress, 1244);
+    }
+
+    public Boolean isSolo() {
+        return null;
     }
 
     public void startServent() {
