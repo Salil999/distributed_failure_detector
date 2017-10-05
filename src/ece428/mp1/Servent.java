@@ -47,13 +47,13 @@ public class Servent {
                 System.out.println("Starting Server...");
                 final byte[] incomingByteStream = new byte[4096];
                 try {
+                    Servent.this.serverSocket = new DatagramSocket(
+                            Servent.this.connection.getPort(),
+                            Servent.this.connection.getHost()
+                    );
                     while (true) {
                         final DatagramPacket incomingPacket = new DatagramPacket(
                                 incomingByteStream, incomingByteStream.length
-                        );
-                        Servent.this.serverSocket = new DatagramSocket(
-                                Servent.this.connection.getPort(),
-                                Servent.this.connection.getHost()
                         );
                         Servent.this.serverSocket.receive(incomingPacket);
                         final String message = new String(incomingPacket.getData());
