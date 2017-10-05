@@ -4,24 +4,20 @@ package ece428.mp1;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Scanner;
 
 public class Servent {
+    public static final int MIN_PORT_NUMBER = 1234;
+    public static final int MAX_PORT_NUMBER = 1244;
     private final Integer machineNumber = Integer.parseInt(new BufferedReader(new FileReader("../number.txt")).readLine());
     private final MembershipList membershipList;
     private final Connection connection;
-
     private DatagramSocket socketClient;
     private DatagramSocket serverSocket;
 
     public Servent() throws IOException {
-        this.membershipList = new MembershipList();
         InetAddress inetAddress = null;
-
         try {
             inetAddress = InetAddress.getByName("fa17-cs425-g39-0" + this.machineNumber.toString() + ".cs.illinois.edu");
             if (this.machineNumber == 10) {
@@ -31,23 +27,70 @@ public class Servent {
             e.printStackTrace();
             System.out.println(e.getLocalizedMessage());
         }
-        this.connection = new Connection(inetAddress, 1244);
+        final int port = getAvailablePort();
+        if (port == -1) {
+            throw new BindException("All available ports are in use!");
+        }
+        this.connection = new Connection(inetAddress, port);
     }
 
-    public Boolean isSolo() {
-        return null;
+    public static boolean isAvailablePort(final int port) {
+        if (port < MIN_PORT_NUMBER || port > MAX_PORT_NUMBER) {
+            return false;
+        }
+
+        ServerSocket ss = null;
+        DatagramSocket ds = null;
+
+        try {
+            ss = new ServerSocket(port);
+            ss.setReuseAddress(true);
+            ds = new DatagramSocket(port);
+            ds.setReuseAddress(true);
+            return true;
+        } catch (final IOException e) {
+        } finally {
+            if (ds != null) {
+                ds.close();
+            }
+            if (ss != null) {
+                try {
+                    ss.close();
+                } catch (final IOException e) {
+                }
+            }
+        }
+        return false;
+    }
+
+    public static Integer getAvailablePort() {
+        for (int i = MIN_PORT_NUMBER; i <= MAX_PORT_NUMBER; ++i) {
+            if (isAvailablePort(i)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public Connection getConnection() {
+        return this.connection;
+    }
+
+    public MembershipList getMembershipList() {
+        return this.membershipList;
     }
 
     public void startServent() {
         startServer();
         startClient();
+        System.out.println("Server running on port: " + this.connection.getPort());
     }
 
     private void sendMembershipList(final MembershipList membershipList) {
 
     }
 
-    public void startServer() {
+    private void startServer() {
         new Thread() {
             @Override
             public void run() {
