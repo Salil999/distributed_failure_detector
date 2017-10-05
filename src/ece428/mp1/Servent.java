@@ -44,6 +44,7 @@ public class Servent {
         (new Thread() {
             @Override
             public void run() {
+                System.out.println("Starting Server...");
                 final byte[] incomingByteStream = new byte[4096];
                 try {
                     while (true) {
@@ -63,7 +64,6 @@ public class Servent {
                                 data, data.length, incomingPacket.getAddress(), incomingPacket.getPort()
                         );
                         Servent.this.serverSocket.send(outgoingPacket);
-                        System.out.println("Running");
                     }
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
@@ -78,6 +78,7 @@ public class Servent {
         (new Thread() {
             @Override
             public void run() {
+                System.out.println("Starting Client...");
                 final byte[] incomingByteStream = new byte[4096];
                 try {
                     final int port = Servent.this.connection.getPort() + 1;
