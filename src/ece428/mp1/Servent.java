@@ -36,7 +36,7 @@ public class Servent {
 
     public void startServent() {
         startServer();
-
+        startClient();
     }
 
     private void sendMembershipList(final MembershipList membershipList) {
