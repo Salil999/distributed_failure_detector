@@ -96,6 +96,7 @@ public class Servent {
                         Servent.this.socketClient.send(sendPacket);
                         final DatagramPacket incomingPacket = new DatagramPacket(
                                 incomingByteStream, incomingByteStream.length);
+                        Servent.this.socketClient.receive(incomingPacket);
                         System.out.println("Message from client: " + new String(incomingPacket.getData()));
 //                        final String response = new String(incomingPacket.getData());
 //                        System.out.println(response);
