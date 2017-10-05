@@ -83,21 +83,23 @@ public class Servent {
             @Override
             public void run() {
                 try {
-                    final int port = Servent.this.connection.getPort() + 1;
-                    Servent.this.socketClient = new DatagramSocket(
-                            port,
-                            Servent.this.connection.getHost()
-                    );
+                    while (true) {
+                        final int port = Servent.this.connection.getPort() + 1;
+                        Servent.this.socketClient = new DatagramSocket(
+                                port,
+                                Servent.this.connection.getHost()
+                        );
 
-                    final byte[] data = new Scanner(System.in).nextLine().getBytes();
+                        final byte[] data = new Scanner(System.in).nextLine().getBytes();
 
-                    final DatagramPacket sendPacket = new DatagramPacket(
-                            data, data.length,
-                            Servent.this.connection.getHost(), Servent.this.connection.getPort()
-                    );
-                    Servent.this.socketClient.send(sendPacket);
+                        final DatagramPacket sendPacket = new DatagramPacket(
+                                data, data.length,
+                                Servent.this.connection.getHost(), Servent.this.connection.getPort()
+                        );
+                        Servent.this.socketClient.send(sendPacket);
 
-                    Servent.this.socketClient.close();
+                        Servent.this.socketClient.close();
+                    }
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
                     e.printStackTrace();
