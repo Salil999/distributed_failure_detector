@@ -44,13 +44,13 @@ public class Servent {
         new Thread() {
             @Override
             public void run() {
-                System.out.println("Starting Server...");
                 try {
                     Servent.this.serverSocket = new DatagramSocket(
                             Servent.this.connection.getPort(),
                             Servent.this.connection.getHost()
                     );
                     while (true) {
+                        System.out.println("server-looping");
                         final byte[] incomingByteStream = new byte[1024];
                         final DatagramPacket incomingPacket = new DatagramPacket(
                                 incomingByteStream, incomingByteStream.length
@@ -78,10 +78,10 @@ public class Servent {
         new Thread() {
             @Override
             public void run() {
-                System.out.println("Starting Client...");
-                final byte[] incomingByteStream = new byte[1024];
                 try {
                     while (true) {
+                        System.out.println("client-looping");
+                        final byte[] incomingByteStream = new byte[1024];
                         final int port = Servent.this.connection.getPort() + 1;
                         Servent.this.socketClient = new DatagramSocket(
                                 port,
@@ -95,11 +95,10 @@ public class Servent {
                         );
                         Servent.this.socketClient.send(sendPacket);
                         final DatagramPacket incomingPacket = new DatagramPacket(
-                                incomingByteStream, incomingByteStream.length);
+                                incomingByteStream, incomingByteStream.length
+                        );
                         Servent.this.socketClient.receive(incomingPacket);
                         System.out.println("Message from client: " + new String(incomingPacket.getData()));
-//                        final String response = new String(incomingPacket.getData());
-//                        System.out.println(response);
                         Servent.this.socketClient.close();
                     }
                 } catch (final IOException e) {
