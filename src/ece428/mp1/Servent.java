@@ -93,11 +93,11 @@ public class Servent {
                     );
                     Servent.this.socketClient.send(sendPacket);
 
-//                    System.out.println("Message from client: ");
-//                    final DatagramPacket incomingPacket = new DatagramPacket(
-//                            incomingByteStream, incomingByteStream.length);
-//                    final String response = new String(incomingPacket.getData());
-//                    System.out.println(response);
+                    System.out.println("Message from client: ");
+                    final DatagramPacket incomingPacket = new DatagramPacket(
+                            incomingByteStream, incomingByteStream.length);
+                    final String response = new String(incomingPacket.getData());
+                    System.out.println(response);
 
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
