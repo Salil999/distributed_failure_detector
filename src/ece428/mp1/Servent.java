@@ -11,7 +11,7 @@ public class Servent {
     public static final int MIN_PORT_NUMBER = 1234;
     public static final int MAX_PORT_NUMBER = 1244;
     private final Integer machineNumber = Integer.parseInt(new BufferedReader(new FileReader("../number.txt")).readLine());
-    private final MembershipList membershipList;
+    //    private final MembershipList membershipList;
     private final Connection connection;
     private DatagramSocket socketClient;
     private DatagramSocket serverSocket;
@@ -77,7 +77,7 @@ public class Servent {
     }
 
     public MembershipList getMembershipList() {
-        return this.membershipList;
+//        return this.membershipList;
     }
 
     public void startServent() {
