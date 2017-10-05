@@ -79,28 +79,26 @@ public class Servent {
             @Override
             public void run() {
                 try {
-                    while (true) {
-                        System.out.println("client-looping");
-                        final byte[] incomingByteStream = new byte[1024];
-                        final int port = Servent.this.connection.getPort() + 1;
-                        Servent.this.socketClient = new DatagramSocket(
-                                port,
-                                Servent.this.connection.getHost()
-                        );
-                        final byte[] data = "This is a message from client".getBytes();
+                    System.out.println("client-looping");
+                    final byte[] incomingByteStream = new byte[1024];
+                    final int port = Servent.this.connection.getPort() + 1;
+                    Servent.this.socketClient = new DatagramSocket(
+                            port,
+                            Servent.this.connection.getHost()
+                    );
+                    final byte[] data = "This is a message from client".getBytes();
 
-                        final DatagramPacket sendPacket = new DatagramPacket(
-                                data, data.length,
-                                Servent.this.connection.getHost(), port
-                        );
-                        Servent.this.socketClient.send(sendPacket);
-                        final DatagramPacket incomingPacket = new DatagramPacket(
-                                incomingByteStream, incomingByteStream.length
-                        );
-                        Servent.this.socketClient.receive(incomingPacket);
-                        System.out.println("Message from client: " + new String(incomingPacket.getData()));
-                        Servent.this.socketClient.close();
-                    }
+                    final DatagramPacket sendPacket = new DatagramPacket(
+                            data, data.length,
+                            Servent.this.connection.getHost(), port
+                    );
+                    Servent.this.socketClient.send(sendPacket);
+                    final DatagramPacket incomingPacket = new DatagramPacket(
+                            incomingByteStream, incomingByteStream.length
+                    );
+                    Servent.this.socketClient.receive(incomingPacket);
+                    System.out.println("Message from client: " + new String(incomingPacket.getData()));
+                    Servent.this.socketClient.close();
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
                     e.printStackTrace();
