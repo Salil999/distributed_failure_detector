@@ -88,14 +88,16 @@ public class Servent {
                             Servent.this.connection.getHost()
                     );
 
-                    final byte[] data = "This is a message from client".getBytes();
+                    for (int i = 0; i < 5; i++) {
+                        final byte[] data = "This is a message from client".getBytes();
 
-                    final DatagramPacket sendPacket = new DatagramPacket(
-                            data, data.length,
-                            Servent.this.connection.getHost(), Servent.this.connection.getPort()
-                    );
+                        final DatagramPacket sendPacket = new DatagramPacket(
+                                data, data.length,
+                                Servent.this.connection.getHost(), Servent.this.connection.getPort()
+                        );
 
-                    Servent.this.socketClient.send(sendPacket);
+                        Servent.this.socketClient.send(sendPacket);
+                    }
 
                     final DatagramPacket incomingPacket = new DatagramPacket(
                             incomingByteStream, incomingByteStream.length
@@ -104,7 +106,7 @@ public class Servent {
 //                    Servent.this.socketClient.receive(incomingPacket);
 //
 //                    System.out.println("Message from client: " + new String(incomingPacket.getData()));
-//                    Servent.this.socketClient.close();
+                    Servent.this.socketClient.close();
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
                     e.printStackTrace();
