@@ -34,7 +34,8 @@ public class Servent {
     }
 
     public void startServent() {
-        System.out.println(new String(this.connection.getHost().getAddress()));
+        System.out.println(this.connection.getHost().getHostName());
+        System.out.println(this.connection.getHost().getHostAddress());
         startServer();
         startClient();
     }
