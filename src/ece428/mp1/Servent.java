@@ -80,7 +80,7 @@ public class Servent {
                         // incomingPacket now contains the contents of whatever the receiver sent
 
 //                        System.out.println("Received from Client: " + new String(incomingPacket.getData()));
-                        System.out.println("Received from Client: " + Servent.this.connection.getHost() + " : " + Servent.this.connection.getPort());
+                        System.out.println("Received from Client: " + incomingPacket.getAddress());
                     }
                 } catch (final IOException e) {
                     System.out.println(e.getLocalizedMessage());
