@@ -8,55 +8,52 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Servent {
-    private final Integer machineNumber = Integer.parseInt(new BufferedReader(new FileReader("../number.txt")).readLine());
-    private final Connection connection;
-    private MembershipList membershipList;
-    private DatagramSocket socketClient;
-    private DatagramSocket serverSocket;
+    public static Integer SEND_PORT = 1234;
+    public static Integer RECEIVE_PORT = 1235;
+    protected final Integer MACHINE_NUMBER = Integer.parseInt(new BufferedReader(new FileReader("../number.txt")).readLine());
+    protected int membershipListSize;
+
+    protected MembershipList membershipList;
+    protected ArrayList<NodeID> heartBeatList;
+    protected DatagramSocket socketClient;
+    protected DatagramSocket serverSocket;
+    protected InetAddress host;
+
 
     public Servent() throws IOException {
         this.membershipList = new MembershipList();
         InetAddress inetAddress = null;
         try {
-            inetAddress = InetAddress.getByName("fa17-cs425-g39-0" + this.machineNumber.toString() + ".cs.illinois.edu");
-            if (this.machineNumber == 10) {
-                inetAddress = InetAddress.getByName("fa17-cs425-g39-" + this.machineNumber.toString() + ".cs.illinois.edu");
+            inetAddress = InetAddress.getByName("fa17-cs425-g39-0" + this.MACHINE_NUMBER.toString() + ".cs.illinois.edu");
+            if (this.MACHINE_NUMBER == 10) {
+                inetAddress = InetAddress.getByName("fa17-cs425-g39-" + this.MACHINE_NUMBER.toString() + ".cs.illinois.edu");
             }
         } catch (final UnknownHostException e) {
             e.printStackTrace();
             System.out.println(e.getLocalizedMessage());
         }
-        this.connection = new Connection(inetAddress, 1234);
-    }
+        this.host = inetAddress;
+        this.membershipList.addNewNode(new NodeID(this.host));
+        this.membershipListSize = 1;
+        this.heartBeatList = new ArrayList<NodeID>();
 
-    private MembershipList getNearestMembershipList() {
-        this.membershipList = new MembershipList();
-        int distance = 0;
-        while (this.machineNumber + distance > 10 || this.machineNumber - distance > 0) {
-            distance++;
+        if (this.MACHINE_NUMBER == 1) {
+            inetAddress = InetAddress.getByName("fa17-cs425-g39-02.cs.illinois.edu");
+            this.heartBeatList.add(new NodeID(inetAddress));
+        } else {
+            inetAddress = InetAddress.getByName("fa17-cs425-g39-01.cs.illinois.edu");
+            this.heartBeatList.add(new NodeID(inetAddress));
         }
-        return null;
     }
 
-    public Connection getConnection() {
-        return this.connection;
-    }
-
-    public MembershipList getMembershipList() {
-//        return this.membershipList;
-        return null;
-    }
 
     public void startServent() {
         startServer();
         startClient();
-    }
-
-    private void sendMembershipList(final MembershipList membershipList) {
-
     }
 
     private void startServer() {
@@ -65,11 +62,12 @@ public class Servent {
             public void run() {
                 try {
                     Servent.this.serverSocket = new DatagramSocket(
-                            Servent.this.connection.getPort(),
-                            Servent.this.connection.getHost()
+                            SEND_PORT,
+                            Servent.this.host
                     );
                     while (true) {
-                        final byte[] incomingByteStream = new byte[1048576];
+
+                        final byte[] incomingByteStream = new byte[(int) Math.pow(2, 20)];
                         final DatagramPacket incomingPacket = new DatagramPacket(
                                 incomingByteStream, incomingByteStream.length
                         );
@@ -79,43 +77,43 @@ public class Servent {
                         Servent.this.serverSocket.receive(incomingPacket);
                         // incomingPacket now contains the contents of whatever the receiver sent
 
-//                        System.out.println("Received from Client: " + new String(incomingPacket.getData()));
+                        System.out.println("Received from Client: " + new String(incomingPacket.getData()));
                         System.out.println("Received from Client: " + incomingPacket.getAddress());
                     }
                 } catch (final IOException e) {
-                    System.out.println(e.getLocalizedMessage());
+                    System.err.println(e.getLocalizedMessage());
                     e.printStackTrace();
                 }
-
             }
         }.start();
     }
 
-    public void startClient() {
+    private void startClient() {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    while (true) {
-                        final int port = Servent.this.connection.getPort() + 1;
+                final int port = RECEIVE_PORT;
+                for (final NodeID nodeID : Servent.this.heartBeatList) {
+                    try {
                         Servent.this.socketClient = new DatagramSocket(
                                 port,
-                                Servent.this.connection.getHost()
+                                Servent.this.host
                         );
 
                         final byte[] data = new Scanner(System.in).nextLine().getBytes();
 
                         final DatagramPacket sendPacket = new DatagramPacket(
                                 data, data.length,
-                                Servent.this.connection.getHost(), Servent.this.connection.getPort()
+                                nodeID.getIPAddress(),
+                                SEND_PORT
                         );
                         Servent.this.socketClient.send(sendPacket);
 
                         Servent.this.socketClient.close();
+                    } catch (final IOException e) {
+                        System.err.println(e.getLocalizedMessage());
+                        e.printStackTrace();
                     }
-                } catch (final IOException e) {
-                    System.out.println(e.getLocalizedMessage());
-                    e.printStackTrace();
                 }
             }
         }.start();

@@ -1,39 +1,39 @@
 package ece428.mp1;
 
+import java.net.InetAddress;
+import java.time.LocalDateTime;
+
 public class NodeID {
-    Integer id;
-    String IPAddress;
+    LocalDateTime startTime;
+    InetAddress IPAddress;
 
     public NodeID() {
     }
 
-    public NodeID(final int id, final String IPAddress) {
-        this.id = id;
+    public NodeID(final InetAddress IPAddress) {
+        this.startTime = LocalDateTime.now();
         this.IPAddress = IPAddress;
     }
 
-    public NodeID(final Integer id, final String IPAddress) {
-        this.id = id;
-        this.IPAddress = IPAddress;
+    public LocalDateTime getStartTime() {
+        return this.startTime;
     }
 
-    public NodeID(final String IPAddress) {
-        this.IPAddress = IPAddress;
+    public void setStartTime(final LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
-    public NodeID(final Integer id) {
-        this.id = id;
-    }
-
-    public NodeID(final int id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public String getIPAddress() {
+    public InetAddress getIPAddress() {
         return this.IPAddress;
     }
+
+    public void setIPAddress(final InetAddress IPAddress) {
+        this.IPAddress = IPAddress;
+    }
+
+    @Override
+    public String toString() {
+        return this.startTime + ":" + new String(this.getIPAddress().getAddress());
+    }
+
 }
