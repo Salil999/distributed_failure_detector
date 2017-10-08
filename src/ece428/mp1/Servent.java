@@ -43,7 +43,6 @@ public class Servent {
         this.self = new NodeID(inetAddress);
         this.membershipList.addNewNode(this.self);
         this.membershipListSize = 1;
-        this.heartBeatList = getKNodes();
 
         this.serverSocket = new DatagramSocket(
                 SEND_PORT,
@@ -53,6 +52,7 @@ public class Servent {
 
 
     public void startServent() {
+        this.heartBeatList = getKNodes();
         startServer();
 
         final Timer timer = new Timer();
