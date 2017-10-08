@@ -71,6 +71,7 @@ public class MembershipListEntry {
         if (!other.getAlive()) {
             shouldKill = true;
         }
+        
         if (otherHeartBeatCount > thisHeartBeatCount) {
             if (other.getAlive()) {
                 this.setHeartBeatCounter(otherHeartBeatCount);
