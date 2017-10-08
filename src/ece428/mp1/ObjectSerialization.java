@@ -34,7 +34,10 @@ public class ObjectSerialization {
         final String[] elements = content.split("`");
 
         for (final String str : elements) {
-            System.out.println(str);
+            if (str.length() == 0) {
+                break;
+            }
+            System.out.println(str.length());
             System.out.println("test");
             final String[] pair = str.split("\\|");
             final String nodeID = pair[0];
