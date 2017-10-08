@@ -43,7 +43,7 @@ public class MembershipList {
         return s;
     }
 
-    public void updateEntries(final MembershipList other) {
+    public synchronized void updateEntries(final MembershipList other) {
         final Iterator it = other.listEntries.entrySet().iterator();
         while (it.hasNext()) {
             final HashMap.Entry pair = (HashMap.Entry) it.next();
@@ -56,11 +56,12 @@ public class MembershipList {
                         LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                                 - thisEntry.getFailedTime() > 3000) {
                     this.listEntries.remove(otherKey);
-                    System.out.println(otherKey.getIPAddress() + " failed");
+                    
+//                    System.out.println(otherKey.getIPAddress() + " failed");
                 }
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
-                System.out.println(otherKey.getIPAddress() + " joined");
+//                System.out.println(otherKey.getIPAddress() + " joined");
             }
         }
     }
