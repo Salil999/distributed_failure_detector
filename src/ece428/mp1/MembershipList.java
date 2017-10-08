@@ -57,7 +57,7 @@ public class MembershipList {
             if (thisEntry != null) {
                 thisEntry.updateEntry(otherEntry, otherKey);
                 final long currentTime = getCurrentTime();
-                if (currentTime - thisEntry.getLocalTime() >= 3000) {
+                if (currentTime - thisEntry.getLocalTime() >= 6000) {
                     System.out.println(otherKey.getIPAddress().getHostName() + " failed");
                     thisEntry.setAlive(false);
                 }
@@ -72,7 +72,7 @@ public class MembershipList {
             final NodeID key = (NodeID) pair.getKey();
             final MembershipListEntry entry = this.listEntries.get(key);
             if (entry != null) {
-                if (getCurrentTime() - entry.getLocalTime() >= 6000) {
+                if (getCurrentTime() - entry.getLocalTime() >= 12000) {
                     System.out.println(key.getIPAddress().getHostName() + " removed");
                     it2.remove();
                 }
