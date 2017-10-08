@@ -23,7 +23,7 @@ public class MembershipListEntry {
     public MembershipListEntry(final int heartBeatCounter, final long localTime, final boolean isAlive) {
         this.heartBeatCounter = heartBeatCounter;
         this.localTime = localTime;
-        this.isAlive = true;
+        this.isAlive = isAlive;
     }
 
 

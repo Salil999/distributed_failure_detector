@@ -1,26 +1,27 @@
 package ece428.mp1;
 
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MembershipList {
 
-    HashMap<NodeID, MembershipListEntry> listEntries;
+    ConcurrentHashMap<NodeID, MembershipListEntry> listEntries;
 
     public MembershipList() {
-        this.listEntries = new HashMap<NodeID, MembershipListEntry>();
+        this.listEntries = new ConcurrentHashMap<NodeID, MembershipListEntry>();
     }
 
-    public MembershipList(final HashMap<NodeID, MembershipListEntry> listEntries) {
+    public MembershipList(final ConcurrentHashMap<NodeID, MembershipListEntry> listEntries) {
         this.listEntries = listEntries;
     }
 
-    public int getNextAvailableSpot() {
-        return 0;
+    public static long getCurrentTime() {
+        return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
     public void addNewNode(final NodeID nodeID) {
-
         this.listEntries.put(
                 nodeID,
                 new MembershipListEntry()
@@ -47,14 +48,20 @@ public class MembershipList {
     public void updateEntries(final MembershipList other) {
         final Iterator it = other.listEntries.entrySet().iterator();
         while (it.hasNext()) {
-            final HashMap.Entry pair = (HashMap.Entry) it.next();
+            final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) it.next();
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
 //            System.out.println(otherKey.getIPAddress());
 //            System.out.println(otherKey.getStartTime());
             if (thisEntry != null) {
-                thisEntry.updateEntry(otherEntry);
+                final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
+                final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
+
+                if (otherHeartBeatCount > thisHeartBeatCount) {
+                    thisEntry.setHeartBeatCounter(otherHeartBeatCount);
+                    thisEntry.updateLocalTime();
+                }
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }

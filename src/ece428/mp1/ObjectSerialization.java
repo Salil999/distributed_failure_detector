@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ObjectSerialization {
 
-    private HashMap<NodeID, MembershipListEntry> listEntries;
+    private ConcurrentHashMap<NodeID, MembershipListEntry> listEntries;
     private String content;
 
     public ObjectSerialization(final MembershipList membershipList) {
@@ -26,12 +27,12 @@ public class ObjectSerialization {
                     .append(entry.getAlive()).append("`");
 
             this.content = builder.toString();
-            
+
         }
     }
 
     public ObjectSerialization(final String content) throws IOException {
-        this.listEntries = new HashMap<NodeID, MembershipListEntry>();
+        this.listEntries = new ConcurrentHashMap<NodeID, MembershipListEntry>();
         final String[] elements = content.split("`");
 
         for (final String str : elements) {

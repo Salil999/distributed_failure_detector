@@ -88,8 +88,9 @@ public class Servent {
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         final String data = new String(incomingPacket.getData());
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
-//        System.out.println("Received from Client: " + other.toString());
+        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
+        System.out.println(this.membershipList.toString());
     }
 
 
@@ -99,14 +100,13 @@ public class Servent {
             public void run() {
                 try {
                     while (true) {
-                        if (Servent.this.membershipList.listEntries.size() != Servent.this.membershipListSize) {
-                            Servent.this.heartBeatList = getKNodes();
-                            Servent.this.membershipListSize = Servent.this.membershipList.listEntries.size();
-                        }
+                        Servent.this.membershipList.incrementHeartBeatCount(Servent.this.self);
+                        Servent.this.heartBeatList = getKNodes();
+
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
                             heartBeat(nodeID);
                         }
-                        Thread.sleep(2000);
+                        Thread.sleep(1000);
                     }
                 } catch (final InterruptedException e) {
                     System.out.println(e.getLocalizedMessage());
@@ -125,9 +125,11 @@ public class Servent {
         }
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
         final Random rand = new Random();
-        for (int i = 0; i < 5; i++) {
+        allKeys.remove(this.INTRODUCER_NODE);
+        for (int i = 0; i < 4; i++) {
             returnList.add(allKeys.remove(rand.nextInt(allKeys.size())));
         }
+        returnList.add(this.INTRODUCER_NODE);
         return returnList;
     }
 
@@ -138,8 +140,6 @@ public class Servent {
                     RECEIVE_PORT,
                     this.self.getIPAddress()
             );
-
-            this.membershipList.incrementHeartBeatCount(this.self);
 
             final byte[] data = new ObjectSerialization(Servent.this.membershipList).toString().getBytes();
             final DatagramPacket sendPacket = new DatagramPacket(
