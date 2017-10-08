@@ -59,7 +59,8 @@ public class MembershipListEntry {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
-        } else if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        }
+        if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 - this.getLocalTime() > 6000) {
             System.out.println("node failed");
             this.setAlive(false);
