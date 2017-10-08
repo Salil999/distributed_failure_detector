@@ -87,7 +87,7 @@ public class Servent {
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         final String data = new String(incomingPacket.getData());
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
-        System.out.println("Received from Client: " + other.toString());
+//        System.out.println("Received from Client: " + other.toString());
         this.membershipList.updateEntries(other);
     }
 
@@ -137,7 +137,6 @@ public class Servent {
                     RECEIVE_PORT,
                     this.self.getIPAddress()
             );
-//            System.out.println("sending heartbeat");
             this.membershipList.incrementHeartBeatCount(this.self);
 
             final byte[] data = new ObjectSerialization(Servent.this.membershipList).toString().getBytes();

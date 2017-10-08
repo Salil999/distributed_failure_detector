@@ -55,7 +55,7 @@ public class MembershipListEntry {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
         final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                - this.getLocalTime() > 6000;
+                - this.getLocalTime() > 3000;
 
 
         if (otherHeartBeatCount > thisHeartBeatCount) {
@@ -64,6 +64,7 @@ public class MembershipListEntry {
             this.setAlive(true);
         } else if (shouldKill) {
             this.setAlive(false);
+            System.out.println("node failed: " + nodeID.getIPAddress());
         }
     }
 }
