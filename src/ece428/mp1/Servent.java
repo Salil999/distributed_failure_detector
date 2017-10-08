@@ -10,8 +10,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Servent {
     public static Integer SEND_PORT = 1234;
@@ -54,20 +52,7 @@ public class Servent {
     public void startServent() {
         this.heartBeatList = getKNodes();
         startServer();
-
-        new Thread() {
-            @Override
-            public void run() {
-                final Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        heartBeat();
-                    }
-                }, 0, 500);
-
-            }
-        }.start();
+        heartBeat();
     }
 
 
@@ -107,12 +92,20 @@ public class Servent {
         new Thread() {
             @Override
             public void run() {
-                if (Servent.this.membershipList.listEntries.size() != Servent.this.membershipListSize) {
-                    Servent.this.heartBeatList = getKNodes();
-                    Servent.this.membershipListSize = Servent.this.membershipList.listEntries.size();
-                }
-                for (final NodeID nodeID : Servent.this.heartBeatList) {
-                    heartBeat(nodeID);
+                try {
+                    while (true) {
+                        if (Servent.this.membershipList.listEntries.size() != Servent.this.membershipListSize) {
+                            Servent.this.heartBeatList = getKNodes();
+                            Servent.this.membershipListSize = Servent.this.membershipList.listEntries.size();
+                        }
+                        for (final NodeID nodeID : Servent.this.heartBeatList) {
+                            heartBeat(nodeID);
+                        }
+                        Thread.sleep(500);
+                    }
+                } catch (final InterruptedException e) {
+                    System.out.println(e.getLocalizedMessage());
+                    e.printStackTrace();
                 }
             }
         }.start();
