@@ -2,6 +2,9 @@ package ece428.mp1;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 public class Introducer extends Servent {
@@ -9,7 +12,22 @@ public class Introducer extends Servent {
     protected PriorityQueue<NodeID> priorityQueue;
 
     public Introducer() throws IOException {
-        super();
+        this.membershipList = new MembershipList();
+
+        InetAddress inetAddress = null;
+        try {
+            inetAddress = InetAddress.getByName("fa17-cs425-g39-0" + this.MACHINE_NUMBER.toString() + ".cs.illinois.edu");
+            if (this.MACHINE_NUMBER == 10) {
+                inetAddress = InetAddress.getByName("fa17-cs425-g39-" + this.MACHINE_NUMBER.toString() + ".cs.illinois.edu");
+            }
+        } catch (final UnknownHostException e) {
+            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
+        }
+
+        this.self = new NodeID(inetAddress);
+        this.membershipList.addNewNode(this.self);
+        this.membershipListSize = 1;
         this.priorityQueue = new PriorityQueue<NodeID>(new Comparator<NodeID>() {
             @Override
             public int compare(final NodeID n1, final NodeID n2) {
@@ -19,6 +37,13 @@ public class Introducer extends Servent {
                 return 1;
             }
         });
+        this.heartBeatList = getKNodes();
+
+        this.serverSocket = new DatagramSocket(
+                SEND_PORT,
+                inetAddress
+        );
+
     }
 
     @Override
