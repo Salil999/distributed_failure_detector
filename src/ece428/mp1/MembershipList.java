@@ -60,6 +60,7 @@ public class MembershipList {
     }
 
     public void incrementHeartBeatCount(final NodeID nodeID) {
+        System.out.println("incrementing heartbeat");
         final MembershipListEntry entry = this.listEntries.get(nodeID);
         entry.setHeartBeatCounter(entry.getHeartBeatCounter() + 1);
         this.listEntries.put(nodeID, entry);
