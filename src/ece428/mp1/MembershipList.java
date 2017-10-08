@@ -54,15 +54,21 @@ public class MembershipList {
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
 //            System.out.println(otherKey.getIPAddress());
 //            System.out.println(otherKey.getStartTime());
-            if (thisEntry != null) {
+            if (thisEntry != null && thisEntry.getAlive()) {
                 final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
-                if (otherHeartBeatCount > thisHeartBeatCount) {
+
+                if (thisEntry.getHeartBeatCounter() < 0) {
+                    if (otherEntry.getHeartBeatCounter() == 0) {
+                        this.addNewNode(otherKey, 0);
+                    }
+                } else if (otherHeartBeatCount > thisHeartBeatCount) {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
                     thisEntry.updateLocalTime();
                 }
+
             } else if (otherEntry.getAlive()) {
-                this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
+                this.addNewNode(otherKey, 0);
             }
         }
 
@@ -74,7 +80,7 @@ public class MembershipList {
             if (getCurrentTime() - thisEntry.getLocalTime() > 3000) {
                 thisEntry.setAlive(false);
                 if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
-                    thisEntry.setHeartBeatCounter(0);
+                    thisEntry.setHeartBeatCounter(-1);
                 }
             } else {
                 thisEntry.setAlive(true);
