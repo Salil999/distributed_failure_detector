@@ -58,6 +58,7 @@ public class MembershipListEntry {
                 - this.getLocalTime() > 10000;
 
         if (otherHeartBeatCount > thisHeartBeatCount) {
+            System.out.println("updating heartbeat from " + thisHeartBeatCount + " to " + otherHeartBeatCount);
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
