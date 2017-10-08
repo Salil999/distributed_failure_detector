@@ -36,6 +36,7 @@ public class ObjectSerialization {
         for (final String str : elements) {
             // System.out.println(str);
             final String[] pair = str.split("\\|");
+            printStringArr(pair);
             final String nodeID = pair[0];
             final String entry = pair[1];
 
@@ -62,6 +63,12 @@ public class ObjectSerialization {
             this.listEntries.put(nodeIDKey, membershipListEntry);
         }
 
+    }
+
+    private void printStringArr(final String[] arr) {
+        for (final String str : arr) {
+            System.out.println(str);
+        }
     }
 
     public MembershipList getMembershipList() {
