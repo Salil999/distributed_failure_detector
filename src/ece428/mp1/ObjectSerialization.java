@@ -34,6 +34,9 @@ public class ObjectSerialization {
         final String[] elements = content.split("`");
 
         for (final String str : elements) {
+            if (str == "") {
+                break;
+            }
             // System.out.println(str);
             final String[] pair = str.split("\\|");
             printStringArr(pair);
