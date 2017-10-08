@@ -53,10 +53,10 @@ public class ObjectSerialization {
             final String isAlive = entrySplit[2];
             final String failedTime = entrySplit[3];
 
-            printStringArr(entrySplit);
-//            if (IPAddress.equals("fa17-cs425-g39-05.cs.illinois.edu")) {
-//                printStringArr(entrySplit);
-//            }
+//            printStringArr(entrySplit);
+            if (IPAddress.equals("fa17-cs425-g39-05.cs.illinois.edu")) {
+                printStringArr(entrySplit);
+            }
 
             final NodeID nodeIDKey = new NodeID(
                     InetAddress.getByName(IPAddress),
