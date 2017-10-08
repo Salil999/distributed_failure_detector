@@ -77,7 +77,7 @@ public class MembershipListEntry {
         } else if ((!other.getAlive() || shouldKill) && this.getFailedTime() < 0) {
 //            System.out.println("killing " + nodeID.getIPAddress().getHostName());
             this.setAlive(false);
-            this.setHeartBeatCounter(0);
+//            this.setHeartBeatCounter(0);
             this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
         }
     }
