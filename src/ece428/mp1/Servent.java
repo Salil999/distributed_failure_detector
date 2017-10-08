@@ -86,9 +86,9 @@ public class Servent {
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         final String data = new String(incomingPacket.getData());
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
-        System.out.println(other.toString());
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
+        System.out.println(new ObjectSerialization(this.membershipList).toString());
     }
 
 
