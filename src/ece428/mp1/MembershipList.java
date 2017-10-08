@@ -15,9 +15,6 @@ public class MembershipList {
         this.listEntries = listEntries;
     }
 
-    public int getNextAvailableSpot() {
-        return 0;
-    }
 
     public void addNewNode(final NodeID nodeID) {
 

@@ -30,9 +30,10 @@ public class Servent {
 
         InetAddress inetAddress = null;
         try {
-            inetAddress = InetAddress.getByName("fa17-cs425-g39-0" + this.MACHINE_NUMBER.toString() + ".cs.illinois.edu");
             if (this.MACHINE_NUMBER == 10) {
                 inetAddress = InetAddress.getByName("fa17-cs425-g39-" + this.MACHINE_NUMBER.toString() + ".cs.illinois.edu");
+            } else {
+                inetAddress = InetAddress.getByName("fa17-cs425-g39-0" + this.MACHINE_NUMBER.toString() + ".cs.illinois.edu");
             }
         } catch (final UnknownHostException e) {
             e.printStackTrace();

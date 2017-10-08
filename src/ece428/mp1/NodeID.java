@@ -5,12 +5,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class NodeID {
-    private long startTime;
-    private InetAddress IPAddress;
+    private final long startTime;
+    private final InetAddress IPAddress;
 
-
-    public NodeID() {
-    }
 
     public NodeID(final InetAddress IPAddress) {
         this.startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -44,17 +41,11 @@ public class NodeID {
         return this.startTime;
     }
 
-    public void setStartTime(final long startTime) {
-        this.startTime = startTime;
-    }
 
     public InetAddress getIPAddress() {
         return this.IPAddress;
     }
 
-    public void setIPAddress(final InetAddress IPAddress) {
-        this.IPAddress = IPAddress;
-    }
 
     @Override
     public String toString() {
