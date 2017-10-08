@@ -36,7 +36,12 @@ public class MembershipList {
 
     @Override
     public String toString() {
-        return new ObjectSerialization(this).toString();
+        String s = new ObjectSerialization(this).toString();
+        s = "Node:\n\t" + s
+                .replace("|", "\nEntry:\n\t")
+                .replace(",", "\n\t")
+                .replace("`", "\n\nNode:\n\t");
+        return s;
     }
 
     public void updateEntries(final MembershipList other) {
