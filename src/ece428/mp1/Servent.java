@@ -103,9 +103,10 @@ public class Servent {
                             Servent.this.membershipListSize = Servent.this.membershipList.listEntries.size();
                         }
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
+                            System.out.println(nodeID.getIPAddress().getHostName());
                             heartBeat(nodeID);
                         }
-                        Thread.sleep(4000);
+                        Thread.sleep(1000);
                     }
                 } catch (final InterruptedException e) {
                     System.out.println(e.getLocalizedMessage());
