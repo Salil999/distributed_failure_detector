@@ -63,20 +63,29 @@ public class MembershipList {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
                     thisEntry.updateLocalTime();
                 }
-
 //                System.out.println(otherKey.getIPAddress().getHostName() + " : " + this.listEntries.get(otherKey).getHeartBeatCounter());
+            } else if (otherEntry.getAlive()) {
+                this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
+            }
+        }
+    }
 
+    public synchronized void removeEntries() {
+        final Iterator it = this.listEntries.entrySet().iterator();
+        while (it.hasNext()) {
+            final HashMap.Entry pair = (HashMap.Entry) it.next();
+            final NodeID key = (NodeID) pair.getKey();
+            final MembershipListEntry entry = this.listEntries.get(key);
+            if (entry != null) {
                 final long currentTime = getCurrentTime();
-                if (currentTime - thisEntry.getLocalTime() >= 6000) {
+                if (currentTime - entry.getLocalTime() >= 6000) {
 //                    System.out.println(otherKey.getIPAddress().getHostName() + " failed");
-                    thisEntry.setAlive(false);
-                    if (currentTime - thisEntry.getLocalTime() >= 12000) {
+                    entry.setAlive(false);
+                    if (currentTime - entry.getLocalTime() >= 12000) {
 //                        System.out.println(otherKey.getIPAddress().getHostName() + " removed");
                         it.remove();
                     }
                 }
-            } else if (otherEntry.getAlive()) {
-                this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
     }
