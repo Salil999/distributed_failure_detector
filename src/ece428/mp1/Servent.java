@@ -125,9 +125,10 @@ public class Servent {
         }
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
         final Random rand = new Random();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             returnList.add(allKeys.remove(rand.nextInt(allKeys.size())));
         }
+        returnList.add(this.INTRODUCER_NODE);
         return returnList;
     }
 
