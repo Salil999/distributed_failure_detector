@@ -63,10 +63,14 @@ public class MembershipListEntry {
         this.isAlive = alive;
     }
 
-    public synchronized void updateEntry(final MembershipListEntry other) {
+    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
         boolean shouldKill = false;
+
+        if (nodeID.getIPAddress().getHostName().equals("fa17-cs425-g39-05.cs.illinois.edu") {
+            System.out.println(otherHeartBeatCount);
+        }
 
         if (!other.getAlive()) {
             shouldKill = true;

@@ -49,7 +49,7 @@ public class MembershipList {
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
-                thisEntry.updateEntry(otherEntry);
+                thisEntry.updateEntry(otherEntry, otherKey);
                 if (!thisEntry.getAlive()) {
                     this.listEntries.remove(otherKey);
                 }
