@@ -54,9 +54,9 @@ public class MembershipList {
                 thisEntry.updateEntry(otherEntry, otherKey);
                 if (!thisEntry.getAlive() &&
                         LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                                - thisEntry.getFailedTime() > 3000) {
+                                - thisEntry.getFailedTime() > 6000) {
                     this.listEntries.remove(otherKey);
-                    
+
 //                    System.out.println(otherKey.getIPAddress() + " failed");
                 }
             } else if (otherEntry.getAlive()) {
