@@ -131,13 +131,13 @@ public class Servent {
     }
 
 
-    private void heartBeat(final NodeID nodeID) {
+    private synchronized void heartBeat(final NodeID nodeID) {
         try {
             Servent.this.socketClient = new DatagramSocket(
                     RECEIVE_PORT,
                     this.self.getIPAddress()
             );
-            System.out.println("sending heartbeat");
+//            System.out.println("sending heartbeat");
             this.membershipList.incrementHeartBeatCount(this.self);
 
             final byte[] data = new ObjectSerialization(Servent.this.membershipList).toString().getBytes();

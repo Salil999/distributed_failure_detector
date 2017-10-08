@@ -59,7 +59,7 @@ public class MembershipList {
         }
     }
 
-    public void incrementHeartBeatCount(final NodeID nodeID) {
+    public synchronized void incrementHeartBeatCount(final NodeID nodeID) {
         final MembershipListEntry entry = this.listEntries.get(nodeID);
         entry.setHeartBeatCounter(entry.getHeartBeatCounter() + 1);
         this.listEntries.put(nodeID, entry);
