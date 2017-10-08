@@ -89,7 +89,7 @@ public class Servent {
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
-//        System.out.println(Servent.this.membershipList.toString());
+        System.out.println(Servent.this.membershipList.toString());
     }
 
 
