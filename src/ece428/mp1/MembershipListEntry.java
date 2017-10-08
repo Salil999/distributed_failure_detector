@@ -73,7 +73,7 @@ public class MembershipListEntry {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
-        } else if (!other.getAlive() || shouldKill) {
+        } else if ((!other.getAlive() || shouldKill) && this.getFailedTime() < 0) {
             System.out.println("killing " + nodeID.getIPAddress().getHostName());
             this.setAlive(false);
             this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
