@@ -59,7 +59,7 @@ public class MembershipListEntry {
 
         System.out.println(other.getHeartBeatCounter() + " : " + this.getHeartBeatCounter());
         System.out.println(other.getHeartBeatCounter() > this.getHeartBeatCounter());
-        if (otherHeartBeatCount > thisHeartBeatCount) {
+        if (otherHeartBeatCount >= thisHeartBeatCount) {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
