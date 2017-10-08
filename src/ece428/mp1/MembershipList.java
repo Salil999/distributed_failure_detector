@@ -57,15 +57,23 @@ public class MembershipList {
             if (thisEntry != null) {
                 final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
-
                 if (otherHeartBeatCount > thisHeartBeatCount) {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
                     thisEntry.updateLocalTime();
                 }
-            } else if (otherEntry.getHeartBeatCounter() == thisEntry.getHeartBeatCounter()) {
-                it.remove();
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
+            }
+        }
+
+        final Iterator i = this.listEntries.entrySet().iterator();
+        while (i.hasNext()) {
+            final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) i.next();
+            final NodeID otherKey = (NodeID) pair.getKey();
+            final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
+            final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
+            if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
+                thisEntry.setAlive(false);
             }
         }
     }
