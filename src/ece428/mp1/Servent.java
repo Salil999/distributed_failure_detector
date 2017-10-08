@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Callable;
 
 public class Servent {
     public static Integer SEND_PORT = 1234;
@@ -60,9 +61,9 @@ public class Servent {
 
 
     private synchronized void startServer() {
-        new Thread() {
+        new Callable() {
             @Override
-            public synchronized void run() {
+            public synchronized Object call() {
                 try {
                     while (true) {
                         final byte[] incomingByteStream = new byte[(int) Math.pow(2, 20)];
@@ -79,8 +80,9 @@ public class Servent {
                     System.err.println(e.getLocalizedMessage());
                     e.printStackTrace();
                 }
+                return new Object();
             }
-        }.start();
+        }.call();
     }
 
     protected synchronized void retrieveData(final DatagramPacket incomingPacket) throws IOException {
@@ -94,9 +96,9 @@ public class Servent {
 
 
     private synchronized void heartBeat() {
-        new Thread() {
+        new Callable() {
             @Override
-            public synchronized void run() {
+            public synchronized Object call() {
                 try {
                     while (true) {
                         Servent.this.heartBeatList = getKNodes();
@@ -110,8 +112,9 @@ public class Servent {
                     System.out.println(e.getLocalizedMessage());
                     e.printStackTrace();
                 }
+                return new Object();
             }
-        }.start();
+        }.call();
     }
 
 

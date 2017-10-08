@@ -21,7 +21,7 @@ public class Introducer extends Servent {
     }
 
     @Override
-    protected ArrayList<NodeID> getKNodes() {
+    protected synchronized ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
         for (int i = 0; i < 5; i++) {
             if (this.priorityQueue.size() == 0) {
@@ -33,7 +33,7 @@ public class Introducer extends Servent {
     }
 
     @Override
-    protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
+    protected synchronized void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         super.retrieveData(incomingPacket);
         this.priorityQueue.clear();
 
