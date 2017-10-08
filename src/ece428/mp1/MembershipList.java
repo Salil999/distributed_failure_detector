@@ -62,7 +62,6 @@ public class MembershipList {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
                 System.out.println(otherKey.getIPAddress() + " joined");
             }
-
         }
     }
 

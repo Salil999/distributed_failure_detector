@@ -53,6 +53,10 @@ public class ObjectSerialization {
             final String isAlive = entrySplit[2];
             final String failedTime = entrySplit[3];
 
+            if (IPAddress.equals("fa17-cs425-g39-05.cs.illinois.edu")) {
+                printStringArr(entrySplit);
+            }
+
             final NodeID nodeIDKey = new NodeID(
                     InetAddress.getByName(IPAddress),
                     Long.parseLong(nodeStartTime)
@@ -69,11 +73,11 @@ public class ObjectSerialization {
 
     }
 
-//    private void printStringArr(final String[] arr) {
-//        for (final String str : arr) {
-//            System.out.println(str);
-//        }
-//    }
+    private void printStringArr(final String[] arr) {
+        for (final String str : arr) {
+            System.out.println(str);
+        }
+    }
 
     public MembershipList getMembershipList() {
         return new MembershipList(this.listEntries);
