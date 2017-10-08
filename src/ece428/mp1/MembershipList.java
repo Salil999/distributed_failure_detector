@@ -109,12 +109,17 @@ public class MembershipList {
 
 
         }
-//        final Iterator it2 = entries.entrySet().iterator();
-//        while (it2.hasNext()) {
-//            final HashMap.Entry pair = (HashMap.Entry) it.next();
-//            final NodeID otherKey = (NodeID) pair.getKey();
-//
-//        }
+        final Iterator it2 = this.listEntries.entrySet().iterator();
+        while (it2.hasNext()) {
+            final HashMap.Entry pair = (HashMap.Entry) it2.next();
+            final NodeID key = (NodeID) pair.getKey();
+            final MembershipListEntry entry = this.listEntries.get(key);
+            if (entry != null) {
+                if (getCurrentTime() - entry.getLocalTime() < 6000) {
+                    entries.put(key, entry);
+                }
+            }
+        }
 
 
     }
