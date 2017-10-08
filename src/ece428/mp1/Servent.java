@@ -137,7 +137,7 @@ public class Servent {
                     RECEIVE_PORT,
                     this.self.getIPAddress()
             );
-
+            System.out.println("sending heartbeat");
             this.membershipList.incrementHeartBeatCount(this.self);
 
             final byte[] data = new ObjectSerialization(Servent.this.membershipList).toString().getBytes();
