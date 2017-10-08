@@ -22,7 +22,7 @@ public class MembershipListEntry {
 
     public MembershipListEntry(final int heartBeatCounter, final long localTime, final boolean isAlive) {
         this.heartBeatCounter = heartBeatCounter;
-        this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        this.localTime = localTime;
         this.isAlive = true;
     }
 
