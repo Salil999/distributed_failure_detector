@@ -23,6 +23,18 @@ public class NodeID {
     }
 
     @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof NodeID)) {
+            return false;
+        }
+        final NodeID other = (NodeID) obj;
+        return this.IPAddress.getHostName() == other.IPAddress.getHostName();
+    }
+
+    @Override
     public int hashCode() {
 //        System.out.println(this.IPAddress.getHostName().hashCode() + "\n\n");
         return this.IPAddress.getHostName().hashCode();
