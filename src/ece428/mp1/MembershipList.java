@@ -55,7 +55,19 @@ public class MembershipList {
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
-                thisEntry.updateEntry(otherEntry, otherKey);
+
+
+                final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
+                final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
+
+                if (thisEntry.getAlive() && otherHeartBeatCount > thisHeartBeatCount) {
+                    System.out.println("updating entry");
+                    thisEntry.setHeartBeatCounter(otherHeartBeatCount);
+                    thisEntry.updateLocalTime();
+                }
+
+                System.out.println(otherKey.getIPAddress().getHostName() + " : " + this.listEntries.get(otherKey).getHeartBeatCounter());
+
                 final long currentTime = getCurrentTime();
                 if (currentTime - thisEntry.getLocalTime() >= 6000) {
 //                    System.out.println(otherKey.getIPAddress().getHostName() + " failed");
