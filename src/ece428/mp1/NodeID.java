@@ -24,6 +24,7 @@ public class NodeID {
 
     @Override
     public int hashCode() {
+        System.out.println(this.IPAddress.getHostName().hashCode() + "\n\n");
         return this.IPAddress.getHostName().hashCode();
     }
 
