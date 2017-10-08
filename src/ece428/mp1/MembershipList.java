@@ -45,6 +45,7 @@ public class MembershipList {
     }
 
     public void updateEntries(final MembershipList other) {
+        System.out.println("membership list size before: " + this.listEntries.size());
         final Iterator it = other.listEntries.entrySet().iterator();
         while (it.hasNext()) {
             final HashMap.Entry pair = (HashMap.Entry) it.next();
@@ -57,6 +58,7 @@ public class MembershipList {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
+        System.out.println("membership list size after : " + this.listEntries.size());
     }
 
     public void incrementHeartBeatCount(final NodeID nodeID) {
