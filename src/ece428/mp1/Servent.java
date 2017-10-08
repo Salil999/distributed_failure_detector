@@ -89,6 +89,7 @@ public class Servent {
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
 
+//        System.out.println(Servent.this.membershipList.toString());
     }
 
 
@@ -144,7 +145,6 @@ public class Servent {
                     nodeID.getIPAddress(),
                     SEND_PORT
             );
-            System.out.println(Servent.this.membershipList.toString());
             Servent.this.socketClient.send(sendPacket);
 
             Servent.this.socketClient.close();
