@@ -71,9 +71,11 @@ public class MembershipList {
             final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) i.next();
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
-            if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
+            if (getCurrentTime() - thisEntry.getLocalTime() > 3000) {
                 thisEntry.setAlive(false);
-                thisEntry.setHeartBeatCounter(0);
+                if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
+                    thisEntry.setHeartBeatCounter(0);
+                }
             } else {
                 thisEntry.setAlive(true);
             }
