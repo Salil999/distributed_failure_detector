@@ -34,17 +34,11 @@ public class ObjectSerialization {
         final String[] elements = content.split("`");
 
         for (final String str : elements) {
-            if (str == "") {
-                break;
-            }
-            // System.out.println(str);
+            System.out.println(str);
+            System.out.println("test");
             final String[] pair = str.split("\\|");
-            printStringArr(pair);
-            System.out.println();
             final String nodeID = pair[0];
-            System.out.println("NodeID: " + nodeID);
             final String entry = pair[1];
-            System.out.println("Entry: " + entry);
 
             final String[] nodeSplit = nodeID.split("\\,");
             final String[] entrySplit = entry.split("\\,");
