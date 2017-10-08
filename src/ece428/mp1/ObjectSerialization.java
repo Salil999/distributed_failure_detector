@@ -58,22 +58,28 @@ public class ObjectSerialization {
 //                printStringArr(entrySplit);
 //            }
 
-            if (Boolean.parseBoolean(isAlive)) {
-                final NodeID nodeIDKey = new NodeID(
-                        InetAddress.getByName(IPAddress),
-                        Long.parseLong(nodeStartTime)
-                );
-                final MembershipListEntry membershipListEntry = new MembershipListEntry(
-                        Integer.parseInt(heartBeatCount),
-                        Long.parseLong(entryLocalTime),
-                        Boolean.parseBoolean(isAlive),
-                        Long.parseLong(failedTime)
-                );
+            final NodeID nodeIDKey = new NodeID(
+                    InetAddress.getByName(IPAddress),
+                    Long.parseLong(nodeStartTime)
+            );
+            final MembershipListEntry membershipListEntry = new MembershipListEntry(
+                    Integer.parseInt(heartBeatCount),
+                    Long.parseLong(entryLocalTime),
+                    Boolean.parseBoolean(isAlive),
+                    Long.parseLong(failedTime)
+            );
 
-                this.listEntries.put(nodeIDKey, membershipListEntry);
-            }
+            this.listEntries.put(nodeIDKey, membershipListEntry);
         }
 
+        final Iterator it = this.listEntries.entrySet().iterator();
+        while (it.hasNext()) {
+            final HashMap.Entry pair = (HashMap.Entry) it.next();
+            final NodeID otherKey = (NodeID) pair.getKey();
+            if (!this.listEntries.get(otherKey).getAlive()) {
+                this.listEntries.remove(otherKey);
+            }
+        }
     }
 
     private void printStringArr(final String[] arr) {
