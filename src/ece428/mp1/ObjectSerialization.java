@@ -50,7 +50,7 @@ public class ObjectSerialization {
             final String isAlive = entrySplit[2];
 
             final NodeID nodeIDKey = new NodeID(
-                    InetAddress.getByAddress(IPAddress.getBytes()),
+                    InetAddress.getByName(IPAddress),
                     Long.parseLong(nodeStartTime)
             );
             final MembershipListEntry membershipListEntry = new MembershipListEntry(
