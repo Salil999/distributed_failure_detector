@@ -61,7 +61,7 @@ public class MembershipList {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
                     thisEntry.updateLocalTime();
                 }
-            } else if (otherEntry.getAlive() && otherEntry.getLocalTime() > 0) {
+            } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
