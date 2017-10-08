@@ -63,6 +63,7 @@ public class MembershipListEntry {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
+            
         } else if (shouldKill) {
 //            System.out.println(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + " : " +
 //            this.getLocalTime())
