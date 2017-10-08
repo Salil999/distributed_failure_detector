@@ -83,6 +83,7 @@ public class Servent {
                         // incomingPacket now contains the contents of whatever the receiver sent
 
                         final String data = new String(incomingPacket.getData());
+                        System.out.println(data);
                         final MembershipList other = new ObjectSerialization(data).getMembershipList();
 
                         System.out.println("Received from Client: " + other.toString());
