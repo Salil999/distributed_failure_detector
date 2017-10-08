@@ -74,6 +74,7 @@ public class ObjectSerialization {
     }
 
     private void printStringArr(final String[] arr) {
+        System.out.println();
         for (final String str : arr) {
             System.out.println(str);
         }
