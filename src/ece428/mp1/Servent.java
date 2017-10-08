@@ -57,6 +57,7 @@ public class Servent {
 
 
     private void startServer() {
+        System.out.println("starting server for receiving");
         new Thread() {
             @Override
             public void run() {
@@ -89,11 +90,13 @@ public class Servent {
 
 
     private void heartBeat() {
+        System.out.println("starting heartbeating");
         new Thread() {
             @Override
             public void run() {
                 try {
                     while (true) {
+                        System.out.println("sending heartbeat");
                         if (Servent.this.membershipList.listEntries.size() != Servent.this.membershipListSize) {
                             Servent.this.heartBeatList = getKNodes();
                             Servent.this.membershipListSize = Servent.this.membershipList.listEntries.size();
@@ -113,6 +116,7 @@ public class Servent {
 
 
     protected ArrayList<NodeID> getKNodes() {
+        System.out.println("getting knodes");
         final ArrayList<NodeID> allKeys = new ArrayList<NodeID>(this.membershipList.listEntries.keySet());
         allKeys.remove(this.self);
         if (allKeys.size() <= 5) {
@@ -128,6 +132,7 @@ public class Servent {
 
 
     private void heartBeat(final NodeID nodeID) {
+        System.out.println("sending joining heartbeat");
         try {
             Servent.this.socketClient = new DatagramSocket(
                     RECEIVE_PORT,
