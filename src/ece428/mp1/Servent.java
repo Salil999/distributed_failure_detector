@@ -72,8 +72,6 @@ public class Servent {
 
                         // THIS LINE IS BLOCKING
                         // It waits for this machine to receive some packet
-                        System.out.println("test");
-
                         Servent.this.serverSocket.receive(incomingPacket);
                         retrieveData(incomingPacket);
                     }
