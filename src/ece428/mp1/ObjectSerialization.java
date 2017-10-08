@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ObjectSerialization {
 
-    private HashMap<NodeID, MembershipListEntry> listEntries;
+    private ConcurrentHashMap<NodeID, MembershipListEntry> listEntries;
     private String content;
 
     public ObjectSerialization(final MembershipList membershipList) {
