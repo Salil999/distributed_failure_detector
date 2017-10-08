@@ -8,6 +8,7 @@ public class NodeID {
     private long startTime;
     private InetAddress IPAddress;
 
+
     public NodeID() {
     }
 
@@ -19,6 +20,11 @@ public class NodeID {
     public NodeID(final InetAddress IPAddress, final long startTime) {
         this.startTime = startTime;
         this.IPAddress = IPAddress;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.IPAddress.hashCode();
     }
 
     public long getStartTime() {

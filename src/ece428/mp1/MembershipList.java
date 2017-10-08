@@ -20,6 +20,7 @@ public class MembershipList {
     }
 
     public void addNewNode(final NodeID nodeID) {
+
         this.listEntries.put(
                 nodeID,
                 new MembershipListEntry()
