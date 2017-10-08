@@ -45,22 +45,18 @@ public class MembershipList {
     }
 
     public void updateEntries(final MembershipList other) {
-        System.out.println("membership list size before: " + this.listEntries.size());
         final Iterator it = other.listEntries.entrySet().iterator();
         while (it.hasNext()) {
             final HashMap.Entry pair = (HashMap.Entry) it.next();
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
-            System.out.println(otherKey.getIPAddress());
-            System.out.println(otherKey.getStartTime());
             if (thisEntry != null) {
                 thisEntry.updateEntry(otherEntry);
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
-        System.out.println("membership list size after : " + this.listEntries.size());
     }
 
     public void incrementHeartBeatCount(final NodeID nodeID) {

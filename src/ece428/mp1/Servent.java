@@ -86,7 +86,7 @@ public class Servent {
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         final String data = new String(incomingPacket.getData());
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
-//        System.out.println("Received from Client: " + other.toString());
+        System.out.println("Received from Client: " + other.toString());
         this.membershipList.updateEntries(other);
     }
 
@@ -119,7 +119,6 @@ public class Servent {
     protected ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> allKeys = new ArrayList<NodeID>(this.membershipList.listEntries.keySet());
         allKeys.remove(this.self);
-        System.out.println("getknodes arraylist size: " + allKeys.size());
         if (allKeys.size() <= 5) {
             return allKeys;
         }
