@@ -80,7 +80,7 @@ public class Servent {
                     e.printStackTrace();
                 }
             }
-            
+
         }.start();
     }
 
@@ -104,7 +104,7 @@ public class Servent {
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
                             heartBeat(nodeID);
                         }
-                        Thread.sleep(3000);
+                        Thread.sleep(500);
                     }
                 } catch (final InterruptedException e) {
                     System.out.println(e.getLocalizedMessage());
