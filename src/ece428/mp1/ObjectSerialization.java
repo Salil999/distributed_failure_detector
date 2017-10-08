@@ -40,8 +40,8 @@ public class ObjectSerialization {
             final String nodeID = pair[0];
             final String entry = pair[1];
 
-            final String[] nodeSplit = nodeID.split(",");
-            final String[] entrySplit = entry.split(",");
+            final String[] nodeSplit = nodeID.split("\\,");
+            final String[] entrySplit = entry.split("\\,");
 
             final String nodeStartTime = nodeSplit[0];
             final String IPAddress = nodeSplit[1];
