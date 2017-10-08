@@ -33,6 +33,10 @@ public class MembershipList {
         );
     }
 
+    @Override
+    public String toString() {
+        return new ObjectSerialization(this).toString();
+    }
 
     public void updateEntries(final MembershipList other) {
         final Iterator it = other.listEntries.entrySet().iterator();

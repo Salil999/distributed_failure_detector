@@ -83,10 +83,10 @@ public class Servent {
                         // incomingPacket now contains the contents of whatever the receiver sent
 
                         final String data = new String(incomingPacket.getData());
-                        final MembershipList other = (new ObjectSerialization(data)).getMembershipList();
+                        final MembershipList other = new ObjectSerialization(data).getMembershipList();
 
-//                        System.out.println("Received from Client: " + other.toString());
-                        System.out.println("Client IP: " + incomingPacket.getAddress());
+                        System.out.println("Received from Client: " + other.toString());
+//                        System.out.println("Client IP: " + incomingPacket.getAddress());
                     }
                 } catch (final IOException e) {
                     System.err.println(e.getLocalizedMessage());
