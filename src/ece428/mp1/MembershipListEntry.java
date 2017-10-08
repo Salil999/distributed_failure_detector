@@ -39,6 +39,10 @@ public class MembershipListEntry {
         return this.localTime;
     }
 
+    public void setLocalTime(final long localTime) {
+        this.localTime = localTime;
+    }
+
     public void updateLocalTime() {
         this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }

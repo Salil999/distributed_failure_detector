@@ -61,7 +61,7 @@ public class MembershipList {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
                     thisEntry.updateLocalTime();
                 }
-            } else if (otherEntry.getAlive()) {
+            } else if (otherEntry.getAlive() && otherEntry.getLocalTime() > 0) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
@@ -73,12 +73,12 @@ public class MembershipList {
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
                 thisEntry.setAlive(false);
-//                thisEntry.setHeartBeatCounter(0);
+                thisEntry.setLocalTime(-1);
             } else {
                 thisEntry.setAlive(true);
             }
             if (getCurrentTime() - thisEntry.getLocalTime() > 12000) {
-                this.listEntries.remove(thisEntry);
+                i.remove();
             }
         }
     }
