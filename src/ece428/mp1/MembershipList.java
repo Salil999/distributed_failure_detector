@@ -51,10 +51,8 @@ public class MembershipList {
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
-            System.out.println("LocalTime: " + LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-            System.out.println("ThisEntryLocalTime: " + thisEntry.getLocalTime());
-
             if (thisEntry != null) {
+//                System.out.println("LocalTime: " + LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
                 thisEntry.updateEntry(otherEntry, otherKey);
                 if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                         - thisEntry.getLocalTime() >= 3000) {
