@@ -89,7 +89,6 @@ public class Servent {
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
-        this.membershipList.removeEntries();
         System.out.println(Servent.this.membershipList.toString());
     }
 
@@ -100,6 +99,7 @@ public class Servent {
             public synchronized void run() {
                 try {
                     while (true) {
+                        Servent.this.membershipList.removeEntries();
                         Servent.this.heartBeatList = getKNodes();
                         Servent.this.membershipList.incrementHeartBeatCount(Servent.this.self);
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
