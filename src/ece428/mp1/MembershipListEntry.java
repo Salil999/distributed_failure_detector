@@ -61,12 +61,12 @@ public class MembershipListEntry {
 //        System.out.println(this.localTime);
         if (otherHeartBeatCount > thisHeartBeatCount) {
             this.setHeartBeatCounter(otherHeartBeatCount);
-            this.updateLocalTime();
             this.setAlive(true);
         } else if (shouldKill) {
 //            System.out.println(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + " : " +
 //            this.getLocalTime())
             this.setAlive(false);
         }
+        this.updateLocalTime();
     }
 }
