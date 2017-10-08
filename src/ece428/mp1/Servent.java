@@ -88,7 +88,7 @@ public class Servent {
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
-        System.out.println(new ObjectSerialization(this.membershipList).toString());
+        System.out.println(this.membershipList.toString());
     }
 
 
