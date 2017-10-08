@@ -1,5 +1,7 @@
 package ece428.mp1;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -50,12 +52,17 @@ public class MembershipList {
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
                 thisEntry.updateEntry(otherEntry, otherKey);
-                if (!thisEntry.getAlive()) {
-                    this.listEntries.remove(otherKey);
+                if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                        - thisEntry.getLocalTime() >= 3000) {
+                    it.remove();
                 }
-            } else if (otherEntry.getAlive() && otherEntry.getFailedTime() < 0) {
-                this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
+            } else {
+                if (otherEntry.getAlive() && otherEntry.getFailedTime() < 0) {
+                    this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
+                }
             }
+
+
         }
 
     }

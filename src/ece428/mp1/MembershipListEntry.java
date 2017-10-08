@@ -66,36 +66,47 @@ public class MembershipListEntry {
     public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
-        boolean shouldKill = false;
-
-        if (nodeID.getIPAddress().getHostName().equals("fa17-cs425-g39-05.cs.illinois.edu")) {
-            System.out.println(otherHeartBeatCount);
-        }
-
-        if (!other.getAlive()) {
-            shouldKill = true;
-        }
 
         if (otherHeartBeatCount > thisHeartBeatCount) {
-            if (other.getAlive()) {
-                this.setHeartBeatCounter(otherHeartBeatCount);
-                this.updateLocalTime();
-                this.setFailedTime(-1);
-                this.setAlive(true);
-                shouldKill = false;
-            } else {
-                shouldKill = true;
-            }
-        } else if (otherHeartBeatCount == thisHeartBeatCount) {
-            shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                    - this.getLocalTime() >= 3000;
-        }
-
-        System.out.println("shouldKill: " + shouldKill);
-        if (shouldKill && this.getFailedTime() < 0) {
-            System.out.println("killing 5");
-            this.setAlive(false);
-            this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+            this.setHeartBeatCounter(otherHeartBeatCount);
+            this.updateLocalTime();
         }
     }
+
+
+//    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
+//        final int otherHeartBeatCount = other.getHeartBeatCounter();
+//        final int thisHeartBeatCount = this.getHeartBeatCounter();
+//        boolean shouldKill = false;
+//
+//        if (nodeID.getIPAddress().getHostName().equals("fa17-cs425-g39-05.cs.illinois.edu")) {
+//            System.out.println(otherHeartBeatCount);
+//        }
+//
+//        if (!other.getAlive()) {
+//            shouldKill = true;
+//        }
+//
+//        if (otherHeartBeatCount > thisHeartBeatCount) {
+//            if (other.getAlive()) {
+//                this.setHeartBeatCounter(otherHeartBeatCount);
+//                this.updateLocalTime();
+//                this.setFailedTime(-1);
+//                this.setAlive(true);
+//                shouldKill = false;
+//            } else {
+//                shouldKill = true;
+//            }
+//        } else if (otherHeartBeatCount == thisHeartBeatCount) {
+//            shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+//                    - this.getLocalTime() >= 3000;
+//        }
+//
+//        System.out.println("shouldKill: " + shouldKill);
+//        if (shouldKill && this.getFailedTime() < 0) {
+//            System.out.println("killing 5");
+//            this.setAlive(false);
+//            this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+//        }
+//    }
 }
