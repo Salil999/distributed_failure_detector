@@ -45,28 +45,44 @@ public class MembershipList {
 
     public synchronized void updateEntries(final MembershipList other) {
         final Iterator it = other.listEntries.entrySet().iterator();
-        final HashMap<NodeID, MembershipList> entries = new HashMap<NodeID, MembershipList>();
+        final HashMap<NodeID, MembershipListEntry> entries = new HashMap<NodeID, MembershipListEntry>();
         while (it.hasNext()) {
             final HashMap.Entry pair = (HashMap.Entry) it.next();
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
-                System.out.println("Difference: " + (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                        - thisEntry.getLocalTime()));
+//                System.out.println("Difference: " + (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+//                        - thisEntry.getLocalTime()));
+//                if (otherEntry.getHeartBeatCounter() > thisEntry.getHeartBeatCounter()) {
+//                    entries.put(otherKey, new MembershipListEntry(
+//                            otherEntry.getHeartBeatCounter(),
+//                            LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+//                            true,
+//                            -1
+//                    ));
+//                }
                 thisEntry.updateEntry(otherEntry, otherKey);
                 if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                         - thisEntry.getLocalTime() >= 3000) {
                     it.remove();
                 }
-            } else {
-                if (otherEntry.getAlive() && otherEntry.getFailedTime() < 0) {
-                    this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
-                }
             }
+//            else {
+//                if (otherEntry.getAlive() && otherEntry.getFailedTime() < 0) {
+//                    this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
+//                }
+//            }
 
 
         }
+//        final Iterator it2 = entries.entrySet().iterator();
+//        while (it2.hasNext()) {
+//            final HashMap.Entry pair = (HashMap.Entry) it.next();
+//            final NodeID otherKey = (NodeID) pair.getKey();
+//
+//        }
+
 
     }
 
