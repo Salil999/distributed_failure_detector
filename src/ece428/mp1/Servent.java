@@ -72,6 +72,8 @@ public class Servent {
 
                         // THIS LINE IS BLOCKING
                         // It waits for this machine to receive some packet
+                        System.out.println("test");
+
                         Servent.this.serverSocket.receive(incomingPacket);
                         retrieveData(incomingPacket);
                     }
@@ -88,7 +90,6 @@ public class Servent {
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
-        System.out.println("test");
         System.out.println(Servent.this.membershipList.toString());
     }
 
