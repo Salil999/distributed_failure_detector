@@ -57,9 +57,11 @@ public class MembershipList {
             if (thisEntry != null) {
                 final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
-                if (otherHeartBeatCount > thisHeartBeatCount) {
-                    thisEntry.setHeartBeatCounter(otherHeartBeatCount);
-                    thisEntry.updateLocalTime();
+                if (otherHeartBeatCount > 0 && thisHeartBeatCount > 0) {
+                    if (otherHeartBeatCount > thisHeartBeatCount) {
+                        thisEntry.setHeartBeatCounter(otherHeartBeatCount);
+                        thisEntry.updateLocalTime();
+                    }
                 }
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
@@ -73,7 +75,7 @@ public class MembershipList {
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
                 thisEntry.setAlive(false);
-                thisEntry.setHeartBeatCounter(0);
+                thisEntry.setHeartBeatCounter(-1);
             } else {
                 thisEntry.setAlive(true);
             }
