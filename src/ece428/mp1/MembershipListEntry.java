@@ -31,7 +31,7 @@ public class MembershipListEntry {
         this.isAlive = isAlive;
     }
 
-    public long getFailedTime() {
+    public synchronized long getFailedTime() {
         return this.failedTime;
     }
 
@@ -39,15 +39,15 @@ public class MembershipListEntry {
         this.failedTime = failedTime;
     }
 
-    public int getHeartBeatCounter() {
+    public synchronized int getHeartBeatCounter() {
         return this.heartBeatCounter;
     }
 
-    public void setHeartBeatCounter(final int heartBeatCounter) {
+    public synchronized void setHeartBeatCounter(final int heartBeatCounter) {
         this.heartBeatCounter = heartBeatCounter;
     }
 
-    public long getLocalTime() {
+    public synchronized long getLocalTime() {
         return this.localTime;
     }
 
@@ -55,11 +55,11 @@ public class MembershipListEntry {
         this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
-    public boolean getAlive() {
+    public synchronized boolean getAlive() {
         return this.isAlive;
     }
 
-    public void setAlive(final boolean alive) {
+    public synchronized void setAlive(final boolean alive) {
         this.isAlive = alive;
     }
 

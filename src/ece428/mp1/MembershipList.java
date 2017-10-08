@@ -17,11 +17,11 @@ public class MembershipList {
         this.listEntries = listEntries;
     }
 
-    public static long getCurrentTime() {
+    public synchronized static long getCurrentTime() {
         return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
-    public void addNewNode(final NodeID nodeID) {
+    public synchronized void addNewNode(final NodeID nodeID) {
 
         this.listEntries.put(
                 nodeID,
@@ -29,7 +29,7 @@ public class MembershipList {
         );
     }
 
-    public void addNewNode(final NodeID nodeID, final int heartBeatCounter) {
+    public synchronized void addNewNode(final NodeID nodeID, final int heartBeatCounter) {
         this.listEntries.put(
                 nodeID,
                 new MembershipListEntry(heartBeatCounter)
