@@ -42,7 +42,8 @@ public class Servent {
 
         this.self = new NodeID(inetAddress);
         this.membershipList.addNewNode(this.self);
-        this.membershipListSize = 1;
+        this.membershipList.addNewNode(this.INTRODUCER_NODE);
+        this.membershipListSize = 2;
 
         this.serverSocket = new DatagramSocket(
                 SEND_PORT,
