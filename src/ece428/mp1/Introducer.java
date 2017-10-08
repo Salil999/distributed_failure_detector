@@ -6,19 +6,18 @@ import java.util.*;
 
 public class Introducer extends Servent {
     public static final String INTRODUCER_IP = "fa17-cs425-g39-01.cs.illinois.edu";
-    protected PriorityQueue<NodeID> priorityQueue;
+    protected PriorityQueue<NodeID> priorityQueue = new PriorityQueue<NodeID>(new Comparator<NodeID>() {
+        @Override
+        public int compare(final NodeID n1, final NodeID n2) {
+            if (n1.getStartTime() < n2.getStartTime()) {
+                return -1;
+            }
+            return 1;
+        }
+    });
 
     public Introducer() throws IOException {
         super();
-        this.priorityQueue = new PriorityQueue<NodeID>(new Comparator<NodeID>() {
-            @Override
-            public int compare(final NodeID n1, final NodeID n2) {
-                if (n1.getStartTime() < n2.getStartTime()) {
-                    return -1;
-                }
-                return 1;
-            }
-        });
     }
 
     @Override
