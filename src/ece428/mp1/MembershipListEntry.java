@@ -74,7 +74,7 @@ public class MembershipListEntry {
             this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
         }
 
-        if (otherHeartBeatCount > thisHeartBeatCount) {
+        if (otherHeartBeatCount > thisHeartBeatCount && other.getAlive()) {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);

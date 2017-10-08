@@ -74,6 +74,7 @@ public class Servent {
                         // It waits for this machine to receive some packet
                         Servent.this.serverSocket.receive(incomingPacket);
                         retrieveData(incomingPacket);
+                        System.out.println(Servent.this.membershipList.toString());
                     }
                 } catch (final IOException e) {
                     System.err.println(e.getLocalizedMessage());
@@ -88,7 +89,6 @@ public class Servent {
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
-        System.out.println(this.membershipList.toString());
     }
 
 
