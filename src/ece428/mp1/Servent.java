@@ -98,10 +98,7 @@ public class Servent {
             public void run() {
                 try {
                     while (true) {
-                        if (Servent.this.membershipList.listEntries.size() != Servent.this.membershipListSize) {
-                            Servent.this.heartBeatList = getKNodes();
-                            Servent.this.membershipListSize = Servent.this.membershipList.listEntries.size();
-                        }
+                        Servent.this.heartBeatList = getKNodes();
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
                             heartBeat(nodeID);
                         }
