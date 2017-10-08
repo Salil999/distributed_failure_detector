@@ -57,16 +57,12 @@ public class MembershipListEntry {
         final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 - this.getLocalTime() > 6000;
 
-//        System.out.println(this.getLocalTime() + " : " + this.localTime);
-//        System.out.println(this.localTime);
         if (otherHeartBeatCount > thisHeartBeatCount) {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
-            
         } else if (shouldKill) {
-//            System.out.println(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + " : " +
-//            this.getLocalTime())
+            System.out.println(this.localTime + " : " + this.getLocalTime());
             this.setAlive(false);
         }
     }
