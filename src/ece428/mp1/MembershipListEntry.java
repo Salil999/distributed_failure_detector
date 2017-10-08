@@ -39,7 +39,7 @@ public class MembershipListEntry {
         return this.localTime;
     }
 
-    public void updateLocalTime() {
+    public synchronized void updateLocalTime() {
         this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
@@ -51,15 +51,15 @@ public class MembershipListEntry {
         this.isAlive = alive;
     }
 
-    public void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
+    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
         final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 - this.getLocalTime() > 6000;
 
-        System.out.println(shouldKill);
+        System.out.println(this.getLocalTime());
+        System.out.println(this.localTime);
         if (otherHeartBeatCount > thisHeartBeatCount) {
-//            System.out.println("updating heartbeat from " + thisHeartBeatCount + " to " + otherHeartBeatCount);
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
