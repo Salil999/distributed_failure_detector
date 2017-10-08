@@ -14,9 +14,9 @@ import java.util.Random;
 public class Servent {
     public static Integer SEND_PORT = 1234;
     public static Integer RECEIVE_PORT = 1235;
+    public final NodeID INTRODUCER_NODE;
     protected final Integer MACHINE_NUMBER = Integer.parseInt(new BufferedReader(new FileReader("../number.txt")).readLine());
     protected int membershipListSize;
-
     protected MembershipList membershipList;
     protected ArrayList<NodeID> heartBeatList;
     protected DatagramSocket socketClient;
@@ -26,6 +26,7 @@ public class Servent {
 
     public Servent() throws IOException {
         this.membershipList = new MembershipList();
+        this.INTRODUCER_NODE = new NodeID(InetAddress.getByName("fa17-cs425-g39-01.cs.illinois.edu"));
 
         InetAddress inetAddress = null;
         try {
@@ -40,7 +41,9 @@ public class Servent {
 
         this.self = new NodeID(inetAddress);
         this.membershipList.addNewNode(this.self);
-        this.membershipListSize = 1;
+        this.membershipList.addNewNode(this.INTRODUCER_NODE);
+        this.membershipListSize = 2;
+
 
         this.serverSocket = new DatagramSocket(
                 SEND_PORT,

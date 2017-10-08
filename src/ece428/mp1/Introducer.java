@@ -5,7 +5,6 @@ import java.net.DatagramPacket;
 import java.util.*;
 
 public class Introducer extends Servent {
-    public static final String INTRODUCER_IP = "fa17-cs425-g39-01.cs.illinois.edu";
     protected PriorityQueue<NodeID> priorityQueue;
 
     public Introducer() throws IOException {
