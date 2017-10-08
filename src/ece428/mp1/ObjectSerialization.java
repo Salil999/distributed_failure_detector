@@ -58,18 +58,20 @@ public class ObjectSerialization {
 //                printStringArr(entrySplit);
 //            }
 
-            final NodeID nodeIDKey = new NodeID(
-                    InetAddress.getByName(IPAddress),
-                    Long.parseLong(nodeStartTime)
-            );
-            final MembershipListEntry membershipListEntry = new MembershipListEntry(
-                    Integer.parseInt(heartBeatCount),
-                    Long.parseLong(entryLocalTime),
-                    Boolean.parseBoolean(isAlive),
-                    Long.parseLong(failedTime)
-            );
+            if (Boolean.parseBoolean(isAlive)) {
+                final NodeID nodeIDKey = new NodeID(
+                        InetAddress.getByName(IPAddress),
+                        Long.parseLong(nodeStartTime)
+                );
+                final MembershipListEntry membershipListEntry = new MembershipListEntry(
+                        Integer.parseInt(heartBeatCount),
+                        Long.parseLong(entryLocalTime),
+                        Boolean.parseBoolean(isAlive),
+                        Long.parseLong(failedTime)
+                );
 
-            this.listEntries.put(nodeIDKey, membershipListEntry);
+                this.listEntries.put(nodeIDKey, membershipListEntry);
+            }
         }
 
     }

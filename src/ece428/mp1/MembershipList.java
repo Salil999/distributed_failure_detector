@@ -49,21 +49,24 @@ public class MembershipList {
             final HashMap.Entry pair = (HashMap.Entry) it.next();
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
-            final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
-            if (thisEntry != null) {
-                thisEntry.updateEntry(otherEntry, otherKey);
-                if (!thisEntry.getAlive() &&
-                        LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                                - thisEntry.getFailedTime() > 6000) {
-                    this.listEntries.remove(otherKey);
-
+            if (otherEntry.getAlive()) {
+                final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
+                if (thisEntry != null) {
+                    thisEntry.updateEntry(otherEntry, otherKey);
+                    if (!thisEntry.getAlive() &&
+                            LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                                    - thisEntry.getFailedTime() > 6000) {
+                        this.listEntries.remove(otherKey);
+                        other.listEntries.remove(otherKey);
 //                    System.out.println(otherKey.getIPAddress() + " failed");
-                }
-            } else if (otherEntry.getAlive()) {
-                this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
+                    }
+                } else if (otherEntry.getAlive()) {
+                    this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
 //                System.out.println(otherKey.getIPAddress() + " joined");
+                }
             }
         }
+
     }
 
     public synchronized void incrementHeartBeatCount(final NodeID nodeID) {
