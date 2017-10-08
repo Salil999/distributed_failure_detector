@@ -53,6 +53,7 @@ public class MembershipList {
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
+                System.out.println("not in list");
                 thisEntry.updateEntry(otherEntry);
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
