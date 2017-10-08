@@ -54,13 +54,14 @@ public class MembershipList {
                 thisEntry.updateEntry(otherEntry, otherKey);
                 if (!thisEntry.getAlive() &&
                         LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                                - thisEntry.getFailedTime() > 9000) {
+                                - thisEntry.getFailedTime() >= 3000) {
                     this.listEntries.remove(otherKey);
                 }
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
+
     }
 
     public synchronized void incrementHeartBeatCount(final NodeID nodeID) {

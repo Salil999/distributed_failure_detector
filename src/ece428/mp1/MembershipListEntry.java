@@ -66,20 +66,27 @@ public class MembershipListEntry {
     public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
-        final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                - this.getLocalTime() > 9000;
+        boolean shouldKill = false;
 
         if (!other.getAlive()) {
-            this.setAlive(false);
-            this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+            shouldKill = true;
+        }
+        if (otherHeartBeatCount > thisHeartBeatCount) {
+            if (other.getAlive()) {
+                this.setHeartBeatCounter(otherHeartBeatCount);
+                this.updateLocalTime();
+                this.setFailedTime(-1);
+                this.setAlive(true);
+                shouldKill = false;
+            } else {
+                shouldKill = true;
+            }
+        } else if (otherHeartBeatCount == thisHeartBeatCount) {
+            shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    - this.getLocalTime() >= 3000;
         }
 
-        if (otherHeartBeatCount > thisHeartBeatCount && other.getAlive()) {
-            this.setHeartBeatCounter(otherHeartBeatCount);
-            this.updateLocalTime();
-            this.setAlive(true);
-            this.setFailedTime(-1);
-        } else if (shouldKill && this.getFailedTime() < 0) {
+        if (shouldKill && this.getFailedTime() < 0) {
 //            System.out.println("killing " + nodeID.getIPAddress().getHostName());
             this.setAlive(false);
             this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
