@@ -64,7 +64,8 @@ public class MembershipListEntry {
         } else if (shouldKill) {
             System.out.println(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     - this.getLocalTime());
-            System.out.println(this.localTime + " : " + this.getLocalTime());
+            System.out.println(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() +
+                    " : " + this.localTime);
             this.setAlive(false);
         }
     }
