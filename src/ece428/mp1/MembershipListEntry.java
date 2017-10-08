@@ -51,7 +51,7 @@ public class MembershipListEntry {
         this.isAlive = alive;
     }
 
-    public void updateEntry(final MembershipListEntry other) {
+    public void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
         final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -63,7 +63,7 @@ public class MembershipListEntry {
             this.updateLocalTime();
             this.setAlive(true);
         } else if (shouldKill) {
-            System.out.println(" shouldKill");
+            System.out.println("shouldKill " + nodeID.getIPAddress());
             this.setAlive(false);
         }
     }
