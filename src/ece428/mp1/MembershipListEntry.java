@@ -57,7 +57,7 @@ public class MembershipListEntry {
         final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 - this.getLocalTime() > 6000;
 
-        System.out.println(this.getLocalTime());
+        System.out.println(this.getLocalTime() + " : " + this.localTime);
         System.out.println(this.localTime);
         if (otherHeartBeatCount > thisHeartBeatCount) {
             this.setHeartBeatCounter(otherHeartBeatCount);
