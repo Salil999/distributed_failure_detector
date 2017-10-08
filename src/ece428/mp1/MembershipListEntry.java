@@ -63,6 +63,7 @@ public class MembershipListEntry {
             this.updateLocalTime();
             this.setAlive(true);
         } else if (shouldKill) {
+            System.out.println(" shouldKill");
             this.setAlive(false);
         }
     }
