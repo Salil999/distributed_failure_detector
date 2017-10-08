@@ -4,16 +4,17 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MembershipList {
 
-    HashMap<NodeID, MembershipListEntry> listEntries;
+    ConcurrentHashMap<NodeID, MembershipListEntry> listEntries;
 
     public MembershipList() {
-        this.listEntries = new HashMap<NodeID, MembershipListEntry>();
+        this.listEntries = new ConcurrentHashMap<NodeID, MembershipListEntry>();
     }
 
-    public MembershipList(final HashMap<NodeID, MembershipListEntry> listEntries) {
+    public MembershipList(final ConcurrentHashMap<NodeID, MembershipListEntry> listEntries) {
         this.listEntries = listEntries;
     }
 
@@ -79,7 +80,7 @@ public class MembershipList {
 
     public synchronized void updateEntries(final MembershipList other) {
         final Iterator it = other.listEntries.entrySet().iterator();
-        final HashMap<NodeID, MembershipListEntry> entries = new HashMap<NodeID, MembershipListEntry>();
+        final ConcurrentHashMap<NodeID, MembershipListEntry> entries = new ConcurrentHashMap<NodeID, MembershipListEntry>();
         while (it.hasNext()) {
             final HashMap.Entry pair = (HashMap.Entry) it.next();
             final NodeID otherKey = (NodeID) pair.getKey();
@@ -99,7 +100,6 @@ public class MembershipList {
                 thisEntry.updateEntry(otherEntry, otherKey);
                 if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                         - thisEntry.getLocalTime() >= 3000) {
-                    it.remove();
                 }
             } else {
 //                if (otherEntry.getAlive() && otherEntry.getFailedTime() < 0) {
