@@ -59,9 +59,6 @@ public class MembershipList {
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
                 if (otherHeartBeatCount < 4 && thisEntry.getLocalTime() < 0) {
                     this.addNewNode(otherKey, 0);
-                    final MembershipListEntry newEntry = this.listEntries.get(otherKey);
-                    newEntry.setHeartBeatCounter(otherHeartBeatCount);
-                    newEntry.updateLocalTime();
                 }
                 if (otherHeartBeatCount > thisHeartBeatCount) {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
