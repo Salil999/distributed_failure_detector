@@ -106,7 +106,7 @@ public class Servent {
                             System.out.println(nodeID.getIPAddress().getHostName());
                             heartBeat(nodeID);
                         }
-                        Thread.sleep(1000);
+                        Thread.sleep(4000);
                     }
                 } catch (final InterruptedException e) {
                     System.out.println(e.getLocalizedMessage());
