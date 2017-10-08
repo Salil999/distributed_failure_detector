@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class MembershipListEntry {
-    private long failedTime;
+    private Long failedTime;
     private int heartBeatCounter;
     private long localTime;
     private boolean isAlive;
@@ -13,14 +13,14 @@ public class MembershipListEntry {
     public MembershipListEntry() {
         this.heartBeatCounter = 0;
         this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        this.failedTime = -1;
+        this.failedTime = null;
         this.isAlive = true;
     }
 
     public MembershipListEntry(final int heartBeatCounter) {
         this.heartBeatCounter = heartBeatCounter;
         this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        this.failedTime = -1;
+        this.failedTime = null;
         this.isAlive = true;
     }
 
@@ -31,11 +31,11 @@ public class MembershipListEntry {
         this.isAlive = isAlive;
     }
 
-    public long getFailedTime() {
+    public Long getFailedTime() {
         return this.failedTime;
     }
 
-    public void setFailedTime(final long failedTime) {
+    public void setFailedTime(final Long failedTime) {
         this.failedTime = failedTime;
     }
 
@@ -68,12 +68,13 @@ public class MembershipListEntry {
         final int thisHeartBeatCount = this.getHeartBeatCounter();
         final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 - this.getLocalTime() > 3000;
-        
+
         if (otherHeartBeatCount > thisHeartBeatCount) {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
-        } else if ((!other.getAlive() || shouldKill) && this.getFailedTime() < 0) {
+            this.setFailedTime(null);
+        } else if ((!other.getAlive() || shouldKill) && this.getFailedTime() == null) {
             System.out.println("killing " + nodeID.getIPAddress().getHostName());
             this.setAlive(false);
             this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
