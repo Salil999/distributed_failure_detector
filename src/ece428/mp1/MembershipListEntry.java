@@ -68,6 +68,7 @@ public class MembershipListEntry {
         final int thisHeartBeatCount = this.getHeartBeatCounter();
 
         if (this.isAlive && otherHeartBeatCount > thisHeartBeatCount) {
+            System.out.println("updating entry");
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
         }

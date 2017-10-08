@@ -58,7 +58,7 @@ public class MembershipList {
                 thisEntry.updateEntry(otherEntry, otherKey);
                 final long currentTime = getCurrentTime();
                 if (currentTime - thisEntry.getLocalTime() >= 6000) {
-                    System.out.println(otherKey.getIPAddress().getHostName() + " failed");
+//                    System.out.println(otherKey.getIPAddress().getHostName() + " failed");
                     thisEntry.setAlive(false);
                 }
             } else if (otherEntry.getAlive()) {
