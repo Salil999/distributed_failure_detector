@@ -57,11 +57,11 @@ public class MembershipList {
                                 - thisEntry.getFailedTime() > 6000) {
                     this.listEntries.remove(otherKey);
 
-//                    System.out.println(otherKey.getIPAddress() + " failed");
+                    System.out.println(otherKey.getIPAddress() + " failed");
                 }
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
-//                System.out.println(otherKey.getIPAddress() + " joined");
+                System.out.println(otherKey.getIPAddress() + " joined");
             }
         }
     }
