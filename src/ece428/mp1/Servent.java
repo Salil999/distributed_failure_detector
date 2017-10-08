@@ -100,9 +100,6 @@ public class Servent {
                     while (true) {
                         Servent.this.heartBeatList = getKNodes();
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
-                            System.out.println(nodeID.getIPAddress());
-                        }
-                        for (final NodeID nodeID : Servent.this.heartBeatList) {
                             heartBeat(nodeID);
                         }
                         Thread.sleep(250);
