@@ -57,18 +57,15 @@ public class MembershipList {
             if (thisEntry != null && thisEntry.getAlive()) {
                 final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
-
-                if (thisEntry.getHeartBeatCounter() < 0) {
-                    if (otherEntry.getHeartBeatCounter() == 0) {
-                        this.addNewNode(otherKey, 0);
-                    }
-                } else if (otherHeartBeatCount > thisHeartBeatCount) {
+                if (otherHeartBeatCount > thisHeartBeatCount) {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
                     thisEntry.updateLocalTime();
                 }
-
-            } else if (otherEntry.getAlive()) {
-                this.addNewNode(otherKey, 0);
+            }
+            if (otherEntry.getAlive()) {
+                if (thisEntry != null && thisEntry.getHeartBeatCounter() < 0) {
+                    this.addNewNode(otherKey, 0);
+                }
             }
         }
 
@@ -80,13 +77,58 @@ public class MembershipList {
             if (getCurrentTime() - thisEntry.getLocalTime() > 3000) {
                 thisEntry.setAlive(false);
                 if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
-                    thisEntry.setHeartBeatCounter(-1);
+                    thisEntry.setHeartBeatCounter(0);
                 }
             } else {
                 thisEntry.setAlive(true);
             }
         }
     }
+
+
+    //    public void updateEntries(final MembershipList other) {
+//        final Iterator it = other.listEntries.entrySet().iterator();
+//        while (it.hasNext()) {
+//            final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) it.next();
+//            final NodeID otherKey = (NodeID) pair.getKey();
+//            final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
+//            final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
+////            System.out.println(otherKey.getIPAddress());
+////            System.out.println(otherKey.getStartTime());
+//            if (thisEntry != null && thisEntry.getAlive()) {
+//                final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
+//                final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
+//
+//                if (thisEntry.getHeartBeatCounter() < 0) {
+//                    if (otherEntry.getHeartBeatCounter() == 0) {
+//                        this.addNewNode(otherKey, 0);
+//                    }
+//                } else if (otherHeartBeatCount > thisHeartBeatCount) {
+//                    thisEntry.setHeartBeatCounter(otherHeartBeatCount);
+//                    thisEntry.updateLocalTime();
+//                }
+//
+//            } else if (otherEntry.getAlive()) {
+//                this.addNewNode(otherKey, 0);
+//            }
+//        }
+//
+//        final Iterator i = this.listEntries.entrySet().iterator();
+//        while (i.hasNext()) {
+//            final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) i.next();
+//            final NodeID otherKey = (NodeID) pair.getKey();
+//            final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
+//            if (getCurrentTime() - thisEntry.getLocalTime() > 3000) {
+//                thisEntry.setAlive(false);
+//                if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
+//                    thisEntry.setHeartBeatCounter(-1);
+//                }
+//            } else {
+//                thisEntry.setAlive(true);
+//            }
+//        }
+//    }
+
 
     public void incrementHeartBeatCount(final NodeID nodeID) {
         final MembershipListEntry entry = this.listEntries.get(nodeID);
