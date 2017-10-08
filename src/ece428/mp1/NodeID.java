@@ -31,7 +31,7 @@ public class NodeID {
             return false;
         }
         final NodeID other = (NodeID) obj;
-        return this.IPAddress.getHostName() == other.IPAddress.getHostName();
+        return this.IPAddress.getHostName().equals(other.IPAddress.getHostName());
     }
 
     @Override
