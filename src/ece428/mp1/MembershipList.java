@@ -45,11 +45,15 @@ public class MembershipList {
 
     public synchronized void updateEntries(final MembershipList other) {
         final Iterator it = other.listEntries.entrySet().iterator();
+
         while (it.hasNext()) {
             final HashMap.Entry pair = (HashMap.Entry) it.next();
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
+            System.out.println("LocalTime: " + LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+            System.out.println("ThisEntryLocalTime: " + thisEntry.getLocalTime());
+
             if (thisEntry != null) {
                 thisEntry.updateEntry(otherEntry, otherKey);
                 if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
