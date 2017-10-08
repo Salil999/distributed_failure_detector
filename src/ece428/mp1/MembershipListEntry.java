@@ -74,6 +74,7 @@ public class MembershipListEntry {
             this.updateLocalTime();
             this.setAlive(true);
         } else if (!other.getAlive() || shouldKill) {
+            System.out.println("killing " + nodeID.getIPAddress().getHostName());
             this.setAlive(false);
             this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
         }
