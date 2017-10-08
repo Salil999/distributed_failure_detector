@@ -10,7 +10,6 @@ public class Introducer extends Servent {
 
     public Introducer() throws IOException {
         super();
-        System.out.println("constructing Introducer");
         this.priorityQueue = new PriorityQueue<NodeID>(new Comparator<NodeID>() {
             @Override
             public int compare(final NodeID n1, final NodeID n2) {

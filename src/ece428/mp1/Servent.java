@@ -55,14 +55,19 @@ public class Servent {
         this.heartBeatList = getKNodes();
         startServer();
 
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        new Thread() {
             @Override
             public void run() {
-                System.out.println("Heartbeating");
-                heartBeat();
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        heartBeat();
+                    }
+                }, 0, 500);
+
             }
-        }, 0, 500);
+        }
     }
 
 
