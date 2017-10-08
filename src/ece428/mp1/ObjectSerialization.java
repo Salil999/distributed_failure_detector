@@ -34,7 +34,7 @@ public class ObjectSerialization {
         setEntry(content);
     }
 
-    private synchronized void setEntry(final String content) {
+    private synchronized void setEntry(final String content) throws IOException {
         this.listEntries = new HashMap<NodeID, MembershipListEntry>();
         final String[] elements = content.split("`");
 
