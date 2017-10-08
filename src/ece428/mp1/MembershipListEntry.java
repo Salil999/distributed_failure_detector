@@ -63,7 +63,7 @@ public class MembershipListEntry {
             this.setAlive(true);
         } else if (shouldKill) {
             this.setAlive(false);
-            System.out.println("node failed: " + nodeID.getIPAddress());
+//            System.out.println("node failed: " + nodeID.getIPAddress());
         }
     }
 }

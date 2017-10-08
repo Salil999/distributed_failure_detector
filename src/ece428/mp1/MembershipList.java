@@ -50,9 +50,15 @@ public class MembershipList {
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
                 thisEntry.updateEntry(otherEntry, otherKey);
+                if (!thisEntry.getAlive()) {
+                    this.listEntries.remove(otherKey);
+                    System.out.println(otherKey.getIPAddress() + " failed");
+                }
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
+                System.out.println(otherKey.getIPAddress() + " joined");
             }
+
         }
     }
 
