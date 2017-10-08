@@ -63,7 +63,7 @@ public class MembershipListEntry {
         this.isAlive = alive;
     }
 
-    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
+    public synchronized void updateEntry(final MembershipListEntry other) {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
         boolean shouldKill = false;

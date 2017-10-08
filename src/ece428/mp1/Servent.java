@@ -59,10 +59,10 @@ public class Servent {
     }
 
 
-    private void startServer() {
+    private synchronized void startServer() {
         new Thread() {
             @Override
-            public void run() {
+            public synchronized void run() {
                 try {
                     while (true) {
                         final byte[] incomingByteStream = new byte[(int) Math.pow(2, 20)];
@@ -74,7 +74,6 @@ public class Servent {
                         // It waits for this machine to receive some packet
                         Servent.this.serverSocket.receive(incomingPacket);
                         retrieveData(incomingPacket);
-                        System.out.println(Servent.this.membershipList.toString());
                     }
                 } catch (final IOException e) {
                     System.err.println(e.getLocalizedMessage());
@@ -84,18 +83,19 @@ public class Servent {
         }.start();
     }
 
-    protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
+    protected synchronized void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         final String data = new String(incomingPacket.getData());
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
+
     }
 
 
-    private void heartBeat() {
+    private synchronized void heartBeat() {
         new Thread() {
             @Override
-            public void run() {
+            public synchronized void run() {
                 try {
                     while (true) {
                         Servent.this.heartBeatList = getKNodes();
@@ -113,7 +113,7 @@ public class Servent {
     }
 
 
-    protected ArrayList<NodeID> getKNodes() {
+    protected synchronized ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> allKeys = new ArrayList<NodeID>(this.membershipList.listEntries.keySet());
         allKeys.remove(this.self);
         if (allKeys.size() <= 5) {
@@ -121,6 +121,7 @@ public class Servent {
         }
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
         final Random rand = new Random();
+        allKeys.remove(this.INTRODUCER_NODE);
         for (int i = 0; i < 4; i++) {
             returnList.add(allKeys.remove(rand.nextInt(allKeys.size())));
         }
@@ -143,6 +144,7 @@ public class Servent {
                     nodeID.getIPAddress(),
                     SEND_PORT
             );
+            System.out.println(Servent.this.membershipList.toString());
             Servent.this.socketClient.send(sendPacket);
 
             Servent.this.socketClient.close();

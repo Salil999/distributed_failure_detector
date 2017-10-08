@@ -51,13 +51,16 @@ public class MembershipList {
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
-                thisEntry.updateEntry(otherEntry, otherKey);
+                thisEntry.updateEntry(otherEntry);
                 if (!thisEntry.getAlive() &&
                         LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                                 - thisEntry.getFailedTime() >= 3000) {
                     this.listEntries.remove(otherKey);
                 }
-            } else if (otherEntry.getAlive()) {
+            } else if (otherEntry.getAlive() &&
+                    LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                            - otherEntry.getFailedTime()
+                            < 3000) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
