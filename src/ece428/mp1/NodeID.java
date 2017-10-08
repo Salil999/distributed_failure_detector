@@ -24,7 +24,7 @@ public class NodeID {
 
     @Override
     public int hashCode() {
-        return this.IPAddress.hashCode();
+        return this.IPAddress.getHostName().hashCode();
     }
 
     public long getStartTime() {
