@@ -11,6 +11,10 @@ public class MembershipList {
         this.listEntries = new HashMap<NodeID, MembershipListEntry>();
     }
 
+    public MembershipList(final HashMap<NodeID, MembershipListEntry> listEntries) {
+        this.listEntries = listEntries;
+    }
+
     public int getNextAvailableSpot() {
         return 0;
     }

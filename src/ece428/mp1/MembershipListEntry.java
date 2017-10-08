@@ -5,20 +5,27 @@ import java.time.ZoneId;
 
 public class MembershipListEntry {
     private int heartBeatCounter;
-    private LocalDateTime localTime;
+    private long localTime;
     private boolean isAlive;
 
     public MembershipListEntry() {
         this.heartBeatCounter = 0;
-        this.localTime = LocalDateTime.now();
+        this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         this.isAlive = true;
     }
 
     public MembershipListEntry(final int heartBeatCounter) {
         this.heartBeatCounter = heartBeatCounter;
-        this.localTime = LocalDateTime.now();
+        this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         this.isAlive = true;
     }
+
+    public MembershipListEntry(final int heartBeatCounter, final long localTime, final boolean isAlive) {
+        this.heartBeatCounter = heartBeatCounter;
+        this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        this.isAlive = true;
+    }
+
 
     public int getHeartBeatCounter() {
         return this.heartBeatCounter;
@@ -28,12 +35,12 @@ public class MembershipListEntry {
         this.heartBeatCounter = heartBeatCounter;
     }
 
-    public LocalDateTime getLocalTime() {
+    public long getLocalTime() {
         return this.localTime;
     }
 
     public void updateLocalTime() {
-        this.localTime = LocalDateTime.now();
+        this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
     public boolean getAlive() {
@@ -47,9 +54,8 @@ public class MembershipListEntry {
     public void updateEntry(final MembershipListEntry other) {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
-        final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() -
-                this.getLocalTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                > 6000;
+        final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                - this.getLocalTime() > 6000;
 
         if (otherHeartBeatCount > thisHeartBeatCount) {
             this.setHeartBeatCounter(otherHeartBeatCount);

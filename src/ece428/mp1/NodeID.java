@@ -2,24 +2,30 @@ package ece428.mp1;
 
 import java.net.InetAddress;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class NodeID {
-    LocalDateTime startTime;
+    long startTime;
     InetAddress IPAddress;
 
     public NodeID() {
     }
 
     public NodeID(final InetAddress IPAddress) {
-        this.startTime = LocalDateTime.now();
+        this.startTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         this.IPAddress = IPAddress;
     }
 
-    public LocalDateTime getStartTime() {
+    public NodeID(final InetAddress IPAddress, final long startTime) {
+        this.startTime = startTime;
+        this.IPAddress = IPAddress;
+    }
+
+    public long getStartTime() {
         return this.startTime;
     }
 
-    public void setStartTime(final LocalDateTime startTime) {
+    public void setStartTime(final long startTime) {
         this.startTime = startTime;
     }
 
