@@ -99,6 +99,7 @@ public class Servent {
                 try {
                     while (true) {
                         Servent.this.heartBeatList = getKNodes();
+                        Servent.this.membershipList.incrementHeartBeatCount(Servent.this.self);
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
                             heartBeat(nodeID);
                         }
@@ -136,7 +137,6 @@ public class Servent {
                     RECEIVE_PORT,
                     this.self.getIPAddress()
             );
-            this.membershipList.incrementHeartBeatCount(this.self);
 
             final byte[] data = new ObjectSerialization(Servent.this.membershipList).toString().getBytes();
             final DatagramPacket sendPacket = new DatagramPacket(
