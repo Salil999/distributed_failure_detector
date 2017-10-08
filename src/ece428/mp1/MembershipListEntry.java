@@ -63,16 +63,16 @@ public class MembershipListEntry {
         this.isAlive = alive;
     }
 
-    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
-        final int otherHeartBeatCount = other.getHeartBeatCounter();
-        final int thisHeartBeatCount = this.getHeartBeatCounter();
-
-        if (this.isAlive && otherHeartBeatCount > thisHeartBeatCount) {
-            System.out.println("updating entry");
-            this.setHeartBeatCounter(otherHeartBeatCount);
-            this.updateLocalTime();
-        }
-    }
+//    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
+//        final int otherHeartBeatCount = other.getHeartBeatCounter();
+//        final int thisHeartBeatCount = this.getHeartBeatCounter();
+//
+//        if (this.isAlive && otherHeartBeatCount > thisHeartBeatCount) {
+//            System.out.println("updating entry");
+//            this.setHeartBeatCounter(otherHeartBeatCount);
+//            this.updateLocalTime();
+//        }
+//    }
 
 
 //    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
