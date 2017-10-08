@@ -121,6 +121,8 @@ public class MembershipList {
             }
         }
 
+        this.listEntries = entries;
+
 
     }
 
