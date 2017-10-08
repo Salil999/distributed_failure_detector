@@ -102,7 +102,7 @@ public class Servent {
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
                             heartBeat(nodeID);
                         }
-                        Thread.sleep(1000);
+                        Thread.sleep(3000);
                     }
                 } catch (final InterruptedException e) {
                     System.out.println(e.getLocalizedMessage());

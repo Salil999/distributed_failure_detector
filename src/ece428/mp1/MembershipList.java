@@ -54,7 +54,7 @@ public class MembershipList {
                 thisEntry.updateEntry(otherEntry, otherKey);
                 if (!thisEntry.getAlive() &&
                         LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                                - thisEntry.getFailedTime() > 3000) {
+                                - thisEntry.getFailedTime() > 9000) {
                     this.listEntries.remove(otherKey);
                 }
             } else if (otherEntry.getAlive()) {
