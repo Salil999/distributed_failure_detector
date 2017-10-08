@@ -70,10 +70,11 @@ public class MembershipList {
         while (i.hasNext()) {
             final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) i.next();
             final NodeID otherKey = (NodeID) pair.getKey();
-            final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
                 thisEntry.setAlive(false);
+            } else {
+                thisEntry.setAlive(true);
             }
         }
     }
