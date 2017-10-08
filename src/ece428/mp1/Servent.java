@@ -97,13 +97,11 @@ public class Servent {
             public void run() {
                 try {
                     while (true) {
-                        System.out.println("heartbeatlist size: " + Servent.this.heartBeatList.size());
                         if (Servent.this.membershipList.listEntries.size() != Servent.this.membershipListSize) {
                             Servent.this.heartBeatList = getKNodes();
                             Servent.this.membershipListSize = Servent.this.membershipList.listEntries.size();
                         }
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
-                            System.out.println(nodeID.getIPAddress().getHostName());
                             heartBeat(nodeID);
                         }
                         Thread.sleep(4000);
