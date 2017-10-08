@@ -38,6 +38,7 @@ public class Servent {
             e.printStackTrace();
             System.out.println(e.getLocalizedMessage());
         }
+        
 
         this.self = new NodeID(inetAddress);
         this.membershipList.addNewNode(this.self);
