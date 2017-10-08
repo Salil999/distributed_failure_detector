@@ -23,7 +23,8 @@ public class ObjectSerialization {
                     .append(nodeID.getIPAddress().getHostName()).append("|")
                     .append(entry.getHeartBeatCounter()).append(",")
                     .append(entry.getLocalTime()).append(",")
-                    .append(entry.getAlive()).append("`");
+                    .append(entry.getAlive()).append(",")
+                    .append(entry.getFailedTime()).append("`");
 
             this.content = builder.toString();
         }
@@ -50,6 +51,7 @@ public class ObjectSerialization {
             final String heartBeatCount = entrySplit[0];
             final String entryLocalTime = entrySplit[1];
             final String isAlive = entrySplit[2];
+            final String failedTime = entrySplit[3];
 
             final NodeID nodeIDKey = new NodeID(
                     InetAddress.getByName(IPAddress),
@@ -58,7 +60,8 @@ public class ObjectSerialization {
             final MembershipListEntry membershipListEntry = new MembershipListEntry(
                     Integer.parseInt(heartBeatCount),
                     Long.parseLong(entryLocalTime),
-                    Boolean.parseBoolean(isAlive)
+                    Boolean.parseBoolean(isAlive),
+                    Long.parseLong(failedTime)
             );
 
             this.listEntries.put(nodeIDKey, membershipListEntry);
