@@ -52,10 +52,11 @@ public class MembershipList {
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
+            System.out.println(otherKey.getIPAddress());
+            System.out.println(otherKey.getStartTime());
             if (thisEntry != null) {
                 thisEntry.updateEntry(otherEntry);
             } else if (otherEntry.getAlive()) {
-                System.out.println("not in list");
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
