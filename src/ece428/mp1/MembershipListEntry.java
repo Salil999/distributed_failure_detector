@@ -67,14 +67,19 @@ public class MembershipListEntry {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
         final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                - this.getLocalTime() > 6000;
+                - this.getLocalTime() > 3000;
+
+        if (!other.getAlive()) {
+            this.setAlive(false);
+            this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        }
 
         if (otherHeartBeatCount > thisHeartBeatCount) {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
             this.setFailedTime(-1);
-        } else if ((!other.getAlive() || shouldKill) && this.getFailedTime() < 0) {
+        } else if (shouldKill && this.getFailedTime() < 0) {
 //            System.out.println("killing " + nodeID.getIPAddress().getHostName());
             this.setAlive(false);
             this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
