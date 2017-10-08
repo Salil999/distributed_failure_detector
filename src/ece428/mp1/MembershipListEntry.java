@@ -62,7 +62,9 @@ public class MembershipListEntry {
             this.updateLocalTime();
             this.setAlive(true);
         } else if (shouldKill) {
-            System.out.println(this.localTime + " : " + this.getLocalTime() + " LMAO");
+            System.out.println(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    - this.getLocalTime());
+            System.out.println(this.localTime + " : " + this.getLocalTime());
             this.setAlive(false);
         }
     }
