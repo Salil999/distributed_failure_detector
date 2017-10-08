@@ -88,6 +88,7 @@ public class Servent {
         final String data = new String(incomingPacket.getData());
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
 //        System.out.println("Received from Client: " + other.toString());
+        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
     }
 
