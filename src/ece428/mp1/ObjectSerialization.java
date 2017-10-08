@@ -26,6 +26,7 @@ public class ObjectSerialization {
                     .append(entry.getAlive()).append("`");
 
             this.content = builder.toString();
+            
         }
     }
 
