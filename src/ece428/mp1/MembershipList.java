@@ -73,7 +73,7 @@ public class MembershipList {
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (getCurrentTime() - thisEntry.getLocalTime() > 6000) {
                 thisEntry.setAlive(false);
-                thisEntry.setLocalTime(-1);
+//                thisEntry.setHeartBeatCounter(0);
             } else {
                 thisEntry.setAlive(true);
             }
