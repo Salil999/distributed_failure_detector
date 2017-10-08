@@ -59,7 +59,7 @@ public class MembershipList {
                 final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
 
-                if (thisEntry.getAlive() && otherHeartBeatCount > thisHeartBeatCount) {
+                if (otherHeartBeatCount > thisHeartBeatCount) {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
                     thisEntry.updateLocalTime();
                 }
@@ -70,7 +70,9 @@ public class MembershipList {
         }
     }
 
-    public synchronized void removeEntries() {
+    public synchronized ConcurrentHashMap<NodeID, MembershipListEntry> removeEntries() {
+        final ConcurrentHashMap<NodeID, MembershipListEntry> newEntries = new ConcurrentHashMap<NodeID, MembershipListEntry>();
+
         final Iterator it = this.listEntries.entrySet().iterator();
         while (it.hasNext()) {
             final HashMap.Entry pair = (HashMap.Entry) it.next();
@@ -78,16 +80,15 @@ public class MembershipList {
             final MembershipListEntry entry = this.listEntries.get(key);
             if (entry != null) {
                 final long currentTime = getCurrentTime();
-                if (currentTime - entry.getLocalTime() >= 6000) {
-//                    System.out.println(otherKey.getIPAddress().getHostName() + " failed");
-                    entry.setAlive(false);
-                    if (currentTime - entry.getLocalTime() >= 12000) {
-//                        System.out.println(otherKey.getIPAddress().getHostName() + " removed");
-                        it.remove();
+                if (currentTime - entry.getLocalTime() < 12000) {
+                    if (currentTime - entry.getLocalTime() >= 6000) {
+                        entry.setAlive(false);
                     }
+                    newEntries.put(key, entry);
                 }
             }
         }
+        return newEntries;
     }
 
 

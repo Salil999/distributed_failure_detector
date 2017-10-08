@@ -99,11 +99,11 @@ public class Servent {
             public synchronized void run() {
                 try {
                     while (true) {
-                        Servent.this.membershipList.removeEntries();
-                        Servent.this.heartBeatList = getKNodes();
                         Servent.this.membershipList.incrementHeartBeatCount(Servent.this.self);
+                        final MembershipList membershipList = new MembershipList(Servent.this.membershipList.removeEntries());
+                        Servent.this.heartBeatList = getKNodes();
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
-                            heartBeat(nodeID);
+                            heartBeat(nodeID, membershipList);
                         }
                         Thread.sleep(500);
                     }
@@ -133,14 +133,14 @@ public class Servent {
     }
 
 
-    private synchronized void heartBeat(final NodeID nodeID) {
+    private synchronized void heartBeat(final NodeID nodeID, final MembershipList membershipList) {
         try {
             Servent.this.socketClient = new DatagramSocket(
                     RECEIVE_PORT,
                     this.self.getIPAddress()
             );
 
-            final byte[] data = new ObjectSerialization(Servent.this.membershipList).toString().getBytes();
+            final byte[] data = new ObjectSerialization(membershipList).toString().getBytes();
             final DatagramPacket sendPacket = new DatagramPacket(
                     data, data.length,
                     nodeID.getIPAddress(),
