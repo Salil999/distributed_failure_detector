@@ -53,7 +53,7 @@ public class MembershipList {
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
                 System.out.println("Difference: " + (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                        - thisEntry.getLocalTime());
+                        - thisEntry.getLocalTime()));
                 thisEntry.updateEntry(otherEntry, otherKey);
                 if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                         - thisEntry.getLocalTime() >= 3000) {
