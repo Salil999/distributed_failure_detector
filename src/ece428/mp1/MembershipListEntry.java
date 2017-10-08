@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class MembershipListEntry {
-    private Long failedTime;
+    private long failedTime;
     private int heartBeatCounter;
     private long localTime;
     private boolean isAlive;
@@ -13,14 +13,14 @@ public class MembershipListEntry {
     public MembershipListEntry() {
         this.heartBeatCounter = 0;
         this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        this.failedTime = null;
+        this.failedTime = -1;
         this.isAlive = true;
     }
 
     public MembershipListEntry(final int heartBeatCounter) {
         this.heartBeatCounter = heartBeatCounter;
         this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        this.failedTime = null;
+        this.failedTime = -1;
         this.isAlive = true;
     }
 
@@ -31,11 +31,11 @@ public class MembershipListEntry {
         this.isAlive = isAlive;
     }
 
-    public Long getFailedTime() {
+    public long getFailedTime() {
         return this.failedTime;
     }
 
-    public void setFailedTime(final Long failedTime) {
+    public void setFailedTime(final long failedTime) {
         this.failedTime = failedTime;
     }
 
@@ -73,8 +73,8 @@ public class MembershipListEntry {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
-            this.setFailedTime(null);
-        } else if ((!other.getAlive() || shouldKill) && this.getFailedTime() == null) {
+            this.setFailedTime(-1);
+        } else if ((!other.getAlive() || shouldKill) && this.getFailedTime() < 0) {
             System.out.println("killing " + nodeID.getIPAddress().getHostName());
             this.setAlive(false);
             this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
