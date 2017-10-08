@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class NodeID {
-    long startTime;
-    InetAddress IPAddress;
+    private long startTime;
+    private InetAddress IPAddress;
 
     public NodeID() {
     }
