@@ -31,6 +31,10 @@ public class ObjectSerialization {
     }
 
     public ObjectSerialization(final String content) throws IOException {
+        setEntry(content);
+    }
+
+    private synchronized void setEntry(final String content) {
         this.listEntries = new HashMap<NodeID, MembershipListEntry>();
         final String[] elements = content.split("`");
 
@@ -80,6 +84,7 @@ public class ObjectSerialization {
                 this.listEntries.remove(otherKey);
             }
         }
+
     }
 
     private void printStringArr(final String[] arr) {
