@@ -140,6 +140,10 @@ public class Servent {
                     this.self.getIPAddress()
             );
 
+            if (membershipList == null) {
+                Servent.this.socketClient.close();
+                return;
+            }
             final byte[] data = new ObjectSerialization(membershipList).toString().getBytes();
             final DatagramPacket sendPacket = new DatagramPacket(
                     data, data.length,
