@@ -99,7 +99,6 @@ public class Servent {
             public void run() {
                 try {
                     while (true) {
-                        System.out.println("heartbeatlist size: " + Servent.this.heartBeatList.size());
                         if (Servent.this.membershipList.listEntries.size() != Servent.this.membershipListSize) {
                             Servent.this.heartBeatList = getKNodes();
                             Servent.this.membershipListSize = Servent.this.membershipList.listEntries.size();
@@ -121,7 +120,6 @@ public class Servent {
     protected ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> allKeys = new ArrayList<NodeID>(this.membershipList.listEntries.keySet());
         allKeys.remove(this.self);
-        System.out.println("getknodes arraylist size: " + allKeys.size());
         if (allKeys.size() <= 5) {
             return allKeys;
         }

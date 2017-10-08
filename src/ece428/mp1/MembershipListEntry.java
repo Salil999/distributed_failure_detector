@@ -54,14 +54,13 @@ public class MembershipListEntry {
     public void updateEntry(final MembershipListEntry other) {
         final int otherHeartBeatCount = other.getHeartBeatCounter();
         final int thisHeartBeatCount = this.getHeartBeatCounter();
-        final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                - this.getLocalTime() > 6000;
 
         if (otherHeartBeatCount > thisHeartBeatCount) {
             this.setHeartBeatCounter(otherHeartBeatCount);
             this.updateLocalTime();
             this.setAlive(true);
-        } else if (shouldKill) {
+        } else if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                - this.getLocalTime() > 6000) {
             System.out.println("node failed");
             this.setAlive(false);
         }
