@@ -57,6 +57,7 @@ public class MembershipListEntry {
         final boolean shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 - this.getLocalTime() > 6000;
 
+        System.out.println(shouldKill);
         if (otherHeartBeatCount > thisHeartBeatCount) {
 //            System.out.println("updating heartbeat from " + thisHeartBeatCount + " to " + otherHeartBeatCount);
             this.setHeartBeatCounter(otherHeartBeatCount);
@@ -65,7 +66,6 @@ public class MembershipListEntry {
         } else if (shouldKill) {
             System.out.println(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + " : " +
                     this.getLocalTime());
-//            System.out.println("shouldKill " + nodeID.getIPAddress());
             this.setAlive(false);
         }
     }
