@@ -77,9 +77,6 @@ public class MembershipList {
             } else {
                 thisEntry.setAlive(true);
             }
-//            if (getCurrentTime() - thisEntry.getLocalTime() > 12000) {
-//                i.remove();
-//            }
         }
     }
 
