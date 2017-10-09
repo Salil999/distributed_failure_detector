@@ -23,6 +23,11 @@ public class Servent {
     protected NodeID self;
 
 
+    /**
+     * Constructor for the Servent
+     *
+     * @throws IOException
+     */
     public Servent() throws IOException {
         this.membershipList = new MembershipList();
         this.INTRODUCER_NODE = new NodeID(InetAddress.getByName("fa17-cs425-g39-01.cs.illinois.edu"));
@@ -52,6 +57,9 @@ public class Servent {
     }
 
 
+    /**
+     * Starts the servent.
+     */
     public void startServent() {
         this.heartBeatList = getKNodes();
         startServer();
@@ -59,6 +67,9 @@ public class Servent {
     }
 
 
+    /**
+     * Starts the "server" part of the servent on a new thread.
+     */
     private void startServer() {
         new Thread() {
             @Override
@@ -83,8 +94,16 @@ public class Servent {
         }.start();
     }
 
+
+    /**
+     * Retrieves the data from an incoming packet and updates the membership list acordingly.
+     *
+     * @param incomingPacket - The incoming packet from other servents.
+     * @throws IOException
+     */
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         final String data = new String(incomingPacket.getData());
+        System.out.println("Length: " + incomingPacket.getData().length);
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
 
         final MembershipListEntry selfInOther = other.listEntries.get(this.self);
@@ -98,11 +117,14 @@ public class Servent {
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         selfInMembershipList.updateLocalTime();
-        System.out.println(this.membershipList.toString());
+//        System.out.println(this.membershipList.toString());
 
     }
 
 
+    /**
+     * This is where we send heartbeats to K random nodes.
+     */
     private void heartBeat() {
         new Thread() {
             @Override
@@ -126,6 +148,10 @@ public class Servent {
     }
 
 
+    /**
+     * We select K random nodes EVERY time we run this function. However, we also check to make sure
+     * that the node is alive before we mark it as one of our K nodes.
+     */
     protected ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> allKeys = new ArrayList<NodeID>(this.membershipList.listEntries.keySet());
         allKeys.remove(this.self);
@@ -151,6 +177,11 @@ public class Servent {
     }
 
 
+    /**
+     * This sends a heartbeat to ONE node, which is passed in. Wrapped into a function for easier debugging.
+     *
+     * @param nodeID
+     */
     private void heartBeat(final NodeID nodeID) {
         try {
             Servent.this.socketClient = new DatagramSocket(

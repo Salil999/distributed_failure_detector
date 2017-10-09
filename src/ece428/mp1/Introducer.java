@@ -7,6 +7,13 @@ import java.util.*;
 public class Introducer extends Servent {
     protected PriorityQueue<NodeID> priorityQueue;
 
+    /**
+     * The introducer inheritcs from the Servent because it ALSO acts as a Servent.
+     * We set a priority queue to ensure that the max(5, priorityQueue.size()) nodes are
+     * the K nodes that the priority queue selects.
+     *
+     * @throws IOException
+     */
     public Introducer() throws IOException {
         super();
         this.priorityQueue = new PriorityQueue<NodeID>(new Comparator<NodeID>() {
@@ -20,6 +27,12 @@ public class Introducer extends Servent {
         });
     }
 
+
+    /**
+     * This
+     *
+     * @return
+     */
     @Override
     protected ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
