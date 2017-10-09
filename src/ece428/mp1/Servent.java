@@ -103,7 +103,6 @@ public class Servent {
      */
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         final String data = new String(incomingPacket.getData());
-        System.out.println("Length: " + incomingPacket.getData().length);
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
 
         final MembershipListEntry selfInOther = other.listEntries.get(this.self);
@@ -117,8 +116,8 @@ public class Servent {
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         selfInMembershipList.updateLocalTime();
-//        System.out.println(this.membershipList.toString());
-
+        System.out.println(this.membershipList.toString());
+        System.out.println("Length: " + incomingPacket.getData().length);
     }
 
 
