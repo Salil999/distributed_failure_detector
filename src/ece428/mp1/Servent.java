@@ -16,7 +16,6 @@ public class Servent {
     public static Integer RECEIVE_PORT = 1235;
     public final NodeID INTRODUCER_NODE;
     protected final Integer MACHINE_NUMBER = Integer.parseInt(new BufferedReader(new FileReader("../number.txt")).readLine());
-    protected int membershipListSize;
     protected MembershipList membershipList;
     protected ArrayList<NodeID> heartBeatList;
     protected DatagramSocket socketClient;
@@ -44,7 +43,6 @@ public class Servent {
         this.self = new NodeID(inetAddress);
         this.membershipList.addNewNode(this.self);
         this.membershipList.addNewNode(this.INTRODUCER_NODE);
-        this.membershipListSize = 2;
 
 
         this.serverSocket = new DatagramSocket(
