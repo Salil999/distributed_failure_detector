@@ -118,6 +118,7 @@ public class Servent {
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         this.printStream.println(other.toString());
+        System.out.println("Console working!");
         selfInMembershipList.updateLocalTime();
 //        System.out.println("Length: " + incomingPacket.getData().length);
     }
