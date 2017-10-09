@@ -97,6 +97,7 @@ public class MembershipList {
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
                 if (otherHeartBeatCount < 4 && thisEntry.getLocalTime() < 0) {
                     new PrintStream(new FileOutputStream(new File("../output.txt"))).println(("NODE REJOIN!\n"));
+                    System.out.println("REJOINED!");
                     this.addNewNode(otherKey, 0);
                 }
                 if (otherHeartBeatCount > thisHeartBeatCount) {
@@ -116,6 +117,7 @@ public class MembershipList {
             if (getCurrentTime() - thisEntry.getLocalTime() > 3000) {
                 if (thisEntry.getAlive()) {
                     new PrintStream(new FileOutputStream(new File("../output.txt"))).println(("NODE DIED!\n"));
+                    System.out.println("DIED");
                 }
                 thisEntry.setAlive(false);
                 thisEntry.setLocalTime(-1);
