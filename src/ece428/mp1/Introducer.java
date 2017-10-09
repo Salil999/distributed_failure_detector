@@ -23,10 +23,13 @@ public class Introducer extends Servent {
     @Override
     protected ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
+        System.out.println("Full PQ");
         for (int i = 0; i < this.priorityQueue.size(); i++) {
             System.out.println(this.priorityQueue.peek().getIPAddress().getHostName());
             this.priorityQueue.add(this.priorityQueue.poll());
         }
+
+        System.out.println("\nKnodes");
         for (int i = 0; i < 5; i++) {
             if (this.priorityQueue.size() == 0) {
                 break;
@@ -34,7 +37,7 @@ public class Introducer extends Servent {
             System.out.println(this.priorityQueue.peek().getIPAddress().getHostName());
             returnList.add(this.priorityQueue.poll());
         }
-        System.out.println();
+        System.out.println("\n");
         return returnList;
     }
 
