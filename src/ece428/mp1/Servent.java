@@ -19,6 +19,7 @@ public class Servent {
     protected DatagramSocket socketClient;
     protected DatagramSocket serverSocket;
     protected NodeID self;
+    protected PrintStream printStream;
 
     /**
      * Constructor for the Servent
@@ -26,8 +27,9 @@ public class Servent {
      * @throws IOException
      */
     public Servent() throws IOException {
-        System.setOut(new PrintStream(new FileOutputStream(new File("../output.txt"))));
-        System.out.println("First line!");
+        this.printStream = new PrintStream(new FileOutputStream(new File("../output.txt")));
+//        System.setOut(new PrintStream(new FileOutputStream(new File("../output.txt"))));
+        this.printStream.println("First line!");
 
         this.membershipList = new MembershipList();
         this.INTRODUCER_NODE = new NodeID(InetAddress.getByName("fa17-cs425-g39-01.cs.illinois.edu"));
@@ -115,7 +117,7 @@ public class Servent {
 
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
-        System.out.println(other.toString());
+        this.printStream.println(other.toString());
         selfInMembershipList.updateLocalTime();
 //        System.out.println("Length: " + incomingPacket.getData().length);
     }

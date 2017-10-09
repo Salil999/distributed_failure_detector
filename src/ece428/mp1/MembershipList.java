@@ -1,5 +1,9 @@
 package ece428.mp1;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Iterator;
@@ -81,7 +85,7 @@ public class MembershipList {
      *
      * @param other A different node's membership list.
      */
-    public void updateEntries(final MembershipList other) {
+    public void updateEntries(final MembershipList other) throws IOException {
         final Iterator it = other.listEntries.entrySet().iterator();
         while (it.hasNext()) {
             final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) it.next();
@@ -92,7 +96,7 @@ public class MembershipList {
                 final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
                 if (otherHeartBeatCount < 4 && thisEntry.getLocalTime() < 0) {
-                    System.out.println("NODE REJOIN!\n");
+                    new PrintStream(new FileOutputStream(new File("../output.txt"))).println(("NODE REJOIN!\n"));
                     this.addNewNode(otherKey, 0);
                 }
                 if (otherHeartBeatCount > thisHeartBeatCount) {
@@ -111,7 +115,7 @@ public class MembershipList {
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (getCurrentTime() - thisEntry.getLocalTime() > 3000) {
                 if (thisEntry.getAlive()) {
-                    System.out.println("NODE DIED!\n");
+                    new PrintStream(new FileOutputStream(new File("../output.txt"))).println(("NODE DIED!\n"));
                 }
                 thisEntry.setAlive(false);
                 thisEntry.setLocalTime(-1);
