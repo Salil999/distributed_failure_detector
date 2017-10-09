@@ -19,7 +19,6 @@ public class Servent {
     protected DatagramSocket socketClient;
     protected DatagramSocket serverSocket;
     protected NodeID self;
-    PrintStream filePrintStream;
 
     /**
      * Constructor for the Servent
@@ -27,8 +26,7 @@ public class Servent {
      * @throws IOException
      */
     public Servent() throws IOException {
-        this.filePrintStream = new PrintStream(new File("output.log"));
-        System.setOut(this.filePrintStream);
+        System.setOut(new PrintStream(new File("output.txt"))))
 
         this.membershipList = new MembershipList();
         this.INTRODUCER_NODE = new NodeID(InetAddress.getByName("fa17-cs425-g39-01.cs.illinois.edu"));
