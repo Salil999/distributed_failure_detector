@@ -100,7 +100,7 @@ public class Servent {
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         selfInMembershipList.updateLocalTime();
-//        System.out.println(this.membershipList.toString());
+        System.out.println(this.membershipList.toString());
 
     }
 
