@@ -1,6 +1,9 @@
 package ece428.mp1;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class TerminalParser {
     private String command;
@@ -14,6 +17,12 @@ public class TerminalParser {
         this.command = command;
     }
 
+    /**
+     * @return The command that is held.
+     */
+    public String getCommand() {
+        return this.command;
+    }
 
     /**
      * Sets the command that we want to run on the shell.
@@ -23,15 +32,6 @@ public class TerminalParser {
     public void setCommand(final String command) {
         this.command = command;
     }
-
-
-    /**
-     * @return The command that is held.
-     */
-    public String getCommand() {
-        return command;
-    }
-
 
     /**
      * Adds the "cat" file to the command so that user does not need to type it in.
@@ -43,8 +43,9 @@ public class TerminalParser {
     private String addCatToCommand(final String com) throws IOException {
         String returnValue = "";
         try {
-            final BufferedReader bufferedReader = new BufferedReader(new FileReader("../number.txt"));
-            returnValue = "cat ../logs/vm" + bufferedReader.readLine() + ".log | " + com;
+//            final BufferedReader bufferedReader = new BufferedReader(new FileReader("../number.txt"));
+            returnValue = "cat ../output.txt | " + com;
+//            returnValue = "cat ../logs/vm" + bufferedReader.readLine() + ".log | " + com;
         } catch (final Exception e) {
             e.printStackTrace();
         }
@@ -60,7 +61,7 @@ public class TerminalParser {
      */
     public void runCommand(final Connection connection) throws InterruptedException, IOException {
         String line;
-        final String newCommand = addCatToCommand(command);
+        final String newCommand = addCatToCommand(this.command);
         final String[] cmd = {"/bin/sh", "-c", newCommand};
 
         final Process process = Runtime.getRuntime().exec(cmd);
