@@ -54,4 +54,5 @@ public class MembershipListEntry {
     public void setAlive(final boolean alive) {
         this.isAlive = alive;
     }
+    
 }

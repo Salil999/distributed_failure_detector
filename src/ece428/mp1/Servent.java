@@ -97,7 +97,7 @@ public class Servent {
             selfInMembershipList.setHeartBeatCounter(selfInOther.getHeartBeatCounter());
         }
 
-        other.listEntries.remove(this.self);
+//        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         selfInMembershipList.updateLocalTime();
         System.out.println(this.membershipList.toString());
@@ -117,7 +117,7 @@ public class Servent {
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
                             heartBeat(nodeID);
                         }
-                        Thread.sleep(5000);
+                        Thread.sleep(500);
                     }
                 } catch (final InterruptedException e) {
                     System.out.println(e.getLocalizedMessage());
