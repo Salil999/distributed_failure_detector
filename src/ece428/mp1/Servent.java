@@ -88,6 +88,15 @@ public class Servent {
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         final String data = new String(incomingPacket.getData());
         final MembershipList other = new ObjectSerialization(data).getMembershipList();
+
+        final MembershipListEntry selfInOther = other.listEntries.get(this.self);
+        final MembershipListEntry selfInMembershipList = this.membershipList.listEntries.get(this.self);
+
+
+        if (selfInOther != null && selfInOther.getLocalTime() < 0) {
+            selfInMembershipList.setHeartBeatCounter(selfInOther.getHeartBeatCounter());
+        }
+
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         System.out.println(this.membershipList.toString());
