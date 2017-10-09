@@ -28,7 +28,7 @@ public class Introducer extends Servent {
             if (this.priorityQueue.size() == 0) {
                 break;
             }
-            System.out.println(this.priorityQueue.peek().getIPAddress());
+//            System.out.println(this.priorityQueue.peek().getIPAddress());
             returnList.add(this.priorityQueue.poll());
         }
         return returnList;
