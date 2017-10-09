@@ -56,16 +56,22 @@ public class MembershipList {
     /**
      * Pretty printing for debugging.
      *
-     * @return
+     * @return Pretty printing of the string.
      */
     @Override
     public String toString() {
-        String s = new ObjectSerialization(this).toString();
-        s = "Node:\n\t" + s
-                .replace("|", "\nEntry:\n\t")
-                .replace(",", "\n\t")
-                .replace("`", "\n\nNode:\n\t");
-        return s;
+        final StringBuilder sb = new StringBuilder();
+        for (final NodeID nodeID : this.listEntries.keySet()) {
+            final MembershipListEntry curr = this.listEntries.get(nodeID);
+            sb
+                    .append("Key: ")
+                    .append(nodeID.getIPAddress().getHostName()).append(" | ")
+                    .append("Value: ")
+                    .append(curr.getHeartBeatCounter()).append(", ")
+                    .append(curr.getLocalTime()).append(", ")
+                    .append(curr.getAlive()).append("\n");
+        }
+        return sb.toString();
     }
 
     /**

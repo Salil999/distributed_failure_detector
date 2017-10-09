@@ -10,6 +10,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Servent {
     public static Integer SEND_PORT = 1234;
@@ -22,6 +25,10 @@ public class Servent {
     protected DatagramSocket serverSocket;
     protected NodeID self;
 
+    protected Logger logger;
+    protected FileHandler fileHandler;
+    protected SimpleFormatter simpleFormatter;
+
 
     /**
      * Constructor for the Servent
@@ -29,6 +36,12 @@ public class Servent {
      * @throws IOException
      */
     public Servent() throws IOException {
+        this.logger = Logger.getLogger("MyLog");
+        this.fileHandler = new FileHandler("/home/ssaxen4/ECE428_mp2/out.log");
+        this.simpleFormatter = new SimpleFormatter();
+        this.fileHandler.setFormatter(this.simpleFormatter);
+        this.logger.info("Constructing myself!");
+
         this.membershipList = new MembershipList();
         this.INTRODUCER_NODE = new NodeID(InetAddress.getByName("fa17-cs425-g39-01.cs.illinois.edu"));
 
