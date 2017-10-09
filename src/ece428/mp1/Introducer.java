@@ -24,10 +24,9 @@ public class Introducer extends Servent {
     protected ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
         final ArrayList<NodeID> removedNodes = new ArrayList<NodeID>();
-        System.out.println("Full PQ");
+        System.out.println("Size: " + this.priorityQueue.size());
         for (int i = 0; i < this.priorityQueue.size(); i++) {
             System.out.println(this.priorityQueue.peek().getIPAddress().getHostName());
-
             removedNodes.add(this.priorityQueue.poll());
         }
 
@@ -40,7 +39,7 @@ public class Introducer extends Servent {
             if (this.priorityQueue.size() == 0) {
                 break;
             }
-            System.out.println(this.priorityQueue.peek().getIPAddress().getHostName());
+//            System.out.println(this.priorityQueue.peek().getIPAddress().getHostName());
             returnList.add(this.priorityQueue.poll());
         }
         System.out.println("\n");
