@@ -27,6 +27,7 @@ public class Servent {
      */
     public Servent() throws IOException {
         System.setOut(new PrintStream(new File("output.txt"))))
+        System.out.println("First line!");
 
         this.membershipList = new MembershipList();
         this.INTRODUCER_NODE = new NodeID(InetAddress.getByName("fa17-cs425-g39-01.cs.illinois.edu"));
