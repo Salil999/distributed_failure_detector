@@ -25,8 +25,7 @@ public class Introducer extends Servent {
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
         System.out.println("Full PQ");
         for (int i = 0; i < this.priorityQueue.size(); i++) {
-            System.out.println(this.priorityQueue.peek().getIPAddress().getHostName());
-            this.priorityQueue.add(this.priorityQueue.poll());
+            System.out.println(this.priorityQueue.poll().getIPAddress().getHostName());
         }
 
         System.out.println("\nKnodes");
