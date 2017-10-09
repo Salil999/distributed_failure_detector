@@ -76,7 +76,7 @@ public class Servent {
             public void run() {
                 try {
                     while (true) {
-                        final byte[] incomingByteStream = new byte[(int) Math.pow(2, 20)];
+                        final byte[] incomingByteStream = new byte[(int) Math.pow(2, 10)];
                         final DatagramPacket incomingPacket = new DatagramPacket(
                                 incomingByteStream, incomingByteStream.length
                         );
