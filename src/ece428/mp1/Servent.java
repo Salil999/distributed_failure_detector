@@ -28,7 +28,6 @@ public class Servent {
      */
     public Servent() throws IOException {
         this.printStream = new PrintStream(new FileOutputStream(new File("../output.txt")));
-//        System.setOut(new PrintStream(new FileOutputStream(new File("../output.txt"))));
         this.printStream.println("First line!");
 
         this.membershipList = new MembershipList();
@@ -62,7 +61,7 @@ public class Servent {
     /**
      * Starts the servent.
      */
-    public void startServent() {
+    public void startServent() throws Exception {
         this.heartBeatList = getKNodes();
         startServer();
         heartBeat();
@@ -118,7 +117,6 @@ public class Servent {
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         this.printStream.println(other.toString());
-        System.out.println("Console working!");
         selfInMembershipList.updateLocalTime();
 //        System.out.println("Length: " + incomingPacket.getData().length);
     }
