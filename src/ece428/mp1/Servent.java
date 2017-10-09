@@ -1,7 +1,9 @@
 package ece428.mp1;
 
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -26,7 +28,7 @@ public class Servent {
      * @throws IOException
      */
     public Servent() throws IOException {
-        System.setOut(new PrintStream(new File("output.txt")));
+//        System.setOut(new PrintStream(new File("output.txt")));
         System.out.println("First line!");
 
         this.membershipList = new MembershipList();
