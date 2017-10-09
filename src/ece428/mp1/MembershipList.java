@@ -64,12 +64,13 @@ public class MembershipList {
         for (final NodeID nodeID : this.listEntries.keySet()) {
             final MembershipListEntry curr = this.listEntries.get(nodeID);
             sb
+                    .append("\n")
                     .append("Key: ")
                     .append(nodeID.getIPAddress().getHostName()).append(" | ")
                     .append("Value: ")
                     .append(curr.getHeartBeatCounter()).append(", ")
                     .append(curr.getLocalTime()).append(", ")
-                    .append(curr.getAlive()).append("\n");
+                    .append(curr.getAlive());
         }
         return sb.toString();
     }
