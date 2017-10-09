@@ -18,32 +18,30 @@ public class GrepClient {
 
 
     /**
-     * @return If the connection is available or not.
-     */
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-
-    /**
      * @param hostName The hostname that the client will connect to.
      * @param port     The port number that the client will connect to.
      * @throws Exception
      */
     public GrepClient(final String hostName, final Integer port) throws Exception {
-        connection = new Connection();
-        connection.setHost(hostName);
-        connection.setPort(port);
+        this.connection = new Connection();
+        this.connection.setHost(hostName);
+        this.connection.setPort(port);
     }
 
+    /**
+     * @return If the connection is available or not.
+     */
+    public boolean isAvailable() {
+        return this.isAvailable;
+    }
 
     /**
      * Clears the internal variables and sets them to null.
      */
     private void clearVars() {
-        connection.setSocket(null);
-        dataOutputStream = null;
-        isAvailable = false;
+        this.connection.setSocket(null);
+        this.dataOutputStream = null;
+        this.isAvailable = false;
     }
 
 
@@ -57,8 +55,8 @@ public class GrepClient {
      */
     public boolean openConnection() throws Exception {
         try {
-            connection.setSocket(new Socket(connection.getHost(), connection.getPort()));
-            dataOutputStream = new DataOutputStream(connection.getSocket().getOutputStream());
+            this.connection.setSocket(new Socket(this.connection.getHost(), this.connection.getPort()));
+            this.dataOutputStream = new DataOutputStream(this.connection.getSocket().getOutputStream());
         } catch (final UnknownHostException e) {
             clearVars();
             return false;
@@ -69,9 +67,9 @@ public class GrepClient {
             clearVars();
             return false;
         }
-        isAvailable = connection.getSocket() != null &&
-                      dataOutputStream != null;
-        return isAvailable;
+        this.isAvailable = this.connection.getSocket() != null &&
+                this.dataOutputStream != null;
+        return this.isAvailable;
     }
 
 
@@ -82,13 +80,13 @@ public class GrepClient {
      */
     public void closeConnection() throws Exception {
         try {
-            connection.getSocket().close();
-            dataOutputStream.close();
+            this.connection.getSocket().close();
+            this.dataOutputStream.close();
         } catch (final Exception e) {
             System.err.println(e.getLocalizedMessage());
         }
         clearVars();
-        isAvailable = false;
+        this.isAvailable = false;
     }
 
 
@@ -98,10 +96,10 @@ public class GrepClient {
      * @throws Exception if the connection was not properly set.
      */
     public void writeData(final String cmd) throws Exception {
-        if (!isAvailable) {
+        if (!this.isAvailable) {
             throw new SocketException("Opening of the connection was not successful.");
         }
-        dataOutputStream.writeUTF(cmd);
+        this.dataOutputStream.writeUTF(cmd);
     }
 
 
@@ -111,18 +109,16 @@ public class GrepClient {
      * @throws IOException
      */
     public int readData() throws IOException {
-        int i = 0;
+        final int i = 0;
         String line;
-        final DataInputStream dataInputStream = new DataInputStream(connection.getSocket().getInputStream());
+        final DataInputStream dataInputStream = new DataInputStream(this.connection.getSocket().getInputStream());
         try {
             while (!(line = dataInputStream.readUTF()).equals("DONE")) {
-                i++;
-//                System.out.println(line);
+                System.out.println(line);
             }
         } catch (final Exception e) {
             e.printStackTrace();
         }
-        System.out.println(Integer.valueOf(i) + " lines");
         return i;
     }
 
@@ -133,6 +129,6 @@ public class GrepClient {
      * @return The connection configuration for the client.
      */
     public Connection getConnection() {
-        return connection;
+        return this.connection;
     }
 }
