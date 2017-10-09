@@ -54,20 +54,4 @@ public class MembershipListEntry {
     public void setAlive(final boolean alive) {
         this.isAlive = alive;
     }
-
-    public void updateEntry(final MembershipListEntry other) {
-        final int otherHeartBeatCount = other.getHeartBeatCounter();
-        final int thisHeartBeatCount = this.getHeartBeatCounter();
-
-        if (otherHeartBeatCount > thisHeartBeatCount) {
-            this.setHeartBeatCounter(otherHeartBeatCount);
-            this.updateLocalTime();
-            this.setAlive(true);
-        }
-        if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                - this.getLocalTime() > 6000) {
-            System.out.println("node failed");
-            this.setAlive(false);
-        }
-    }
 }

@@ -100,7 +100,7 @@ public class Servent {
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         selfInMembershipList.updateLocalTime();
-        System.out.println(this.membershipList.toString());
+//        System.out.println(this.membershipList.toString());
 
     }
 
@@ -117,7 +117,7 @@ public class Servent {
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
                             heartBeat(nodeID);
                         }
-                        Thread.sleep(1000);
+                        Thread.sleep(5000);
                     }
                 } catch (final InterruptedException e) {
                     System.out.println(e.getLocalizedMessage());
