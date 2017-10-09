@@ -26,7 +26,7 @@ public class Servent {
      * @throws IOException
      */
     public Servent() throws IOException {
-        System.setOut(new PrintStream(new File("output.txt"))))
+        System.setOut(new PrintStream(new File("output.txt")));
         System.out.println("First line!");
 
         this.membershipList = new MembershipList();
