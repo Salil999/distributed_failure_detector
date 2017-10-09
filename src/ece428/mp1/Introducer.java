@@ -28,8 +28,10 @@ public class Introducer extends Servent {
             if (this.priorityQueue.size() == 0) {
                 break;
             }
+            System.out.println(this.priorityQueue.peek().getIPAddress().getHostName());
             returnList.add(this.priorityQueue.poll());
         }
+        System.out.println();
         return returnList;
     }
 
