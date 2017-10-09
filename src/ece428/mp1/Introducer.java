@@ -23,9 +23,16 @@ public class Introducer extends Servent {
     @Override
     protected ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
+        final ArrayList<NodeID> removedNodes = new ArrayList<NodeID>();
         System.out.println("Full PQ");
         for (int i = 0; i < this.priorityQueue.size(); i++) {
-            System.out.println(this.priorityQueue.poll().getIPAddress().getHostName());
+            System.out.println(this.priorityQueue.peek().getIPAddress().getHostName());
+
+            removedNodes.add(this.priorityQueue.poll());
+        }
+
+        for (final NodeID node : removedNodes) {
+            this.priorityQueue.add(node);
         }
 
         System.out.println("\nKnodes");
