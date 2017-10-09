@@ -11,6 +11,13 @@ public class ObjectSerialization {
     private ConcurrentHashMap<NodeID, MembershipListEntry> listEntries;
     private String content;
 
+
+    /**
+     * Constructs a serialization object based on a membership list. Marshals the membership list into a
+     * byte stream so it can be sent over the network.
+     *
+     * @param membershipList - The membership list that we want to encode.
+     */
     public ObjectSerialization(final MembershipList membershipList) {
         final StringBuilder builder = new StringBuilder();
         final Iterator it = membershipList.listEntries.entrySet().iterator();
@@ -31,6 +38,14 @@ public class ObjectSerialization {
         }
     }
 
+
+    /**
+     * Constructs a serialization object based on a string. Transforms the string into a
+     * membership list so we can use our methods and interact with it.
+     *
+     * @param content - Converts a string into a membership list.
+     * @throws IOException
+     */
     public ObjectSerialization(final String content) throws IOException {
         this.listEntries = new ConcurrentHashMap<NodeID, MembershipListEntry>();
         final String[] elements = content.split("`");
@@ -68,16 +83,19 @@ public class ObjectSerialization {
 
     }
 
-//    private void printStringArr(final String[] arr) {
-//        for (final String str : arr) {
-//            System.out.println(str);
-//        }
-//    }
 
+    /**
+     * Gets the membership that we constructed.
+     *
+     * @return - The membership that's been converted from a byte stream.
+     */
     public MembershipList getMembershipList() {
         return new MembershipList(this.listEntries);
     }
 
+    /**
+     * @return
+     */
     @Override
     public String toString() {
         return this.content;

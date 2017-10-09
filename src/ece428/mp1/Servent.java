@@ -117,7 +117,8 @@ public class Servent {
         this.membershipList.updateEntries(other);
         selfInMembershipList.updateLocalTime();
         System.out.println(this.membershipList.toString());
-        System.out.println("Length: " + incomingPacket.getData().length);
+        System.out.println(new ObjectSerialization(data).toString().getBytes().length);
+//        System.out.println("Length: " + incomingPacket.getData().length);
     }
 
 

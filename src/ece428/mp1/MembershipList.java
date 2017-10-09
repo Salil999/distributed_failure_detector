@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MembershipList {
 
+
     ConcurrentHashMap<NodeID, MembershipListEntry> listEntries;
 
     public MembershipList() {
@@ -17,10 +18,21 @@ public class MembershipList {
         this.listEntries = listEntries;
     }
 
+    /**
+     * Gets the current time in milliseconds.
+     *
+     * @return - Current time.
+     */
     public static long getCurrentTime() {
         return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
+
+    /**
+     * Adds a node into the membership list.
+     *
+     * @param nodeID - The node we want to add into the membership list.
+     */
     public void addNewNode(final NodeID nodeID) {
         this.listEntries.put(
                 nodeID,
@@ -28,6 +40,12 @@ public class MembershipList {
         );
     }
 
+    /**
+     * Adds a node into the membership list.
+     *
+     * @param nodeID           - The node we want to add into the membership list.
+     * @param heartBeatCounter - The heartbeat counter we want to set when we add the node.
+     */
     public void addNewNode(final NodeID nodeID, final int heartBeatCounter) {
         this.listEntries.put(
                 nodeID,
@@ -35,6 +53,11 @@ public class MembershipList {
         );
     }
 
+    /**
+     * Pretty printing for debugging.
+     *
+     * @return
+     */
     @Override
     public String toString() {
         String s = new ObjectSerialization(this).toString();
@@ -45,6 +68,12 @@ public class MembershipList {
         return s;
     }
 
+    /**
+     * This is the merge function for a membership list. It merges the two membership lists and updates
+     * the list in accordance to the gossiping algorithm.
+     *
+     * @param other A different node's membership list.
+     */
     public void updateEntries(final MembershipList other) {
         final Iterator it = other.listEntries.entrySet().iterator();
         while (it.hasNext()) {
@@ -81,6 +110,11 @@ public class MembershipList {
         }
     }
 
+    /**
+     * Increments a node's heartbeat counter.
+     *
+     * @param nodeID - A node in the network.
+     */
     public void incrementHeartBeatCount(final NodeID nodeID) {
         final MembershipListEntry entry = this.listEntries.get(nodeID);
         entry.setHeartBeatCounter(entry.getHeartBeatCounter() + 1);

@@ -29,7 +29,7 @@ public class Introducer extends Servent {
 
 
     /**
-     * This
+     * This is the K nodes that the introducer will select. We pick the top 5 elements from our priority queue.
      *
      * @return
      */
@@ -45,6 +45,14 @@ public class Introducer extends Servent {
         return returnList;
     }
 
+
+    /**
+     * We clear the priority queue and add in the new nodes into the priority queue.
+     * We do this because the priority queue has to be upated on nodes that have been failed or not.
+     *
+     * @param incomingPacket - The incoming packet from other servents.
+     * @throws IOException
+     */
     @Override
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         super.retrieveData(incomingPacket);
