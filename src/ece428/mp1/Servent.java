@@ -1,18 +1,13 @@
 package ece428.mp1;
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class Servent {
     public static Integer SEND_PORT = 1234;
@@ -24,11 +19,7 @@ public class Servent {
     protected DatagramSocket socketClient;
     protected DatagramSocket serverSocket;
     protected NodeID self;
-
-    protected Logger logger;
-    protected FileHandler fileHandler;
-    protected SimpleFormatter simpleFormatter;
-
+    PrintStream filePrintStream;
 
     /**
      * Constructor for the Servent
@@ -36,11 +27,8 @@ public class Servent {
      * @throws IOException
      */
     public Servent() throws IOException {
-        this.logger = Logger.getLogger("MyLog");
-        this.fileHandler = new FileHandler("/home/ssaxen4/ECE428_mp2/out.log");
-        this.simpleFormatter = new SimpleFormatter();
-        this.fileHandler.setFormatter(this.simpleFormatter);
-        this.logger.info("Constructing myself!");
+        this.filePrintStream = new PrintStream(new File("output.log"));
+        System.setOut(this.filePrintStream);
 
         this.membershipList = new MembershipList();
         this.INTRODUCER_NODE = new NodeID(InetAddress.getByName("fa17-cs425-g39-01.cs.illinois.edu"));
@@ -128,8 +116,8 @@ public class Servent {
 
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
+        System.out.println(other.toString());
         selfInMembershipList.updateLocalTime();
-        this.logger.info(this.membershipList.toString());
 //        System.out.println("Length: " + incomingPacket.getData().length);
     }
 
