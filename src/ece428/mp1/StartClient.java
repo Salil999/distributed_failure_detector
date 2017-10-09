@@ -30,6 +30,7 @@ public class StartClient {
                 if (current.isAvailable() || current.openConnection()) {
                     current.writeData(cmd);
                     System.out.println("Server: " + Integer.valueOf(i + 1));
+                    current.readData();
                     System.out.println();
                 }
             }

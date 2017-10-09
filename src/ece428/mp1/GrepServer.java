@@ -13,8 +13,8 @@ public class GrepServer {
 
 
     public GrepServer(final Integer port) {
-        connection = new Connection();
-        connection.setPort(port);
+        this.connection = new Connection();
+        this.connection.setPort(port);
     }
 
 
@@ -25,7 +25,7 @@ public class GrepServer {
      */
     public void initialize() throws IOException {
         try {
-            serverSocket = new ServerSocket(connection.getPort());
+            this.serverSocket = new ServerSocket(this.connection.getPort());
         } catch (final IOException e) {
             System.out.println(e.getLocalizedMessage());
         }
@@ -39,12 +39,12 @@ public class GrepServer {
         String line;
         final TerminalParser terminalParser = new TerminalParser();
         try {
-            connection.setSocket(serverSocket.accept());
-            final DataInputStream dataInputStream = new DataInputStream(connection.getSocket().getInputStream());
+            this.connection.setSocket(this.serverSocket.accept());
+            final DataInputStream dataInputStream = new DataInputStream(this.connection.getSocket().getInputStream());
             while (true) {
                 line = dataInputStream.readUTF();
                 terminalParser.setCommand(line);
-                terminalParser.runCommand(connection);
+                terminalParser.runCommand(this.connection);
             }
         } catch (final IOException e) {
             System.out.println(e.getLocalizedMessage());
@@ -59,14 +59,14 @@ public class GrepServer {
      * @throws IOException
      */
     public void closeServer() throws IOException {
-        if (connection != null && connection.getSocket() != null) {
-            connection.getSocket().close();
+        if (this.connection != null && this.connection.getSocket() != null) {
+            this.connection.getSocket().close();
         }
-        if (serverSocket != null) {
-            serverSocket.close();
+        if (this.serverSocket != null) {
+            this.serverSocket.close();
         }
-        connection = null;
-        serverSocket = null;
+        this.connection = null;
+        this.serverSocket = null;
     }
 
 
@@ -74,6 +74,6 @@ public class GrepServer {
      * @return The connection configuration for the client.
      */
     public Connection getConnection() {
-        return connection;
+        return this.connection;
     }
 }
