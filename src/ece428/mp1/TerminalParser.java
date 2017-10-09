@@ -64,6 +64,7 @@ public class TerminalParser {
         final String newCommand = addCatToCommand(this.command);
         final String[] cmd = {"/bin/sh", "-c", newCommand};
 
+        System.out.println(newCommand);
         final Process process = Runtime.getRuntime().exec(cmd);
         final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
