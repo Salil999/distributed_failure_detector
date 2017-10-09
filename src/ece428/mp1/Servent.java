@@ -100,7 +100,7 @@ public class Servent {
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         System.out.println(this.membershipList.toString());
-        
+
     }
 
 
@@ -136,8 +136,16 @@ public class Servent {
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
         final Random rand = new Random();
         allKeys.remove(this.INTRODUCER_NODE);
+        NodeID node;
         for (int i = 0; i < 4; i++) {
-            returnList.add(allKeys.remove(rand.nextInt(allKeys.size())));
+            while (allKeys.size() > 0) {
+                node = allKeys.remove(rand.nextInt(allKeys.size()));
+                if (this.membershipList.listEntries.get(node).getAlive()) {
+                    returnList.add(node);
+                    break;
+
+                }
+            }
         }
         returnList.add(this.INTRODUCER_NODE);
         return returnList;
