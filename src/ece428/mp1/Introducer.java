@@ -7,6 +7,13 @@ import java.util.*;
 public class Introducer extends Servent {
     protected PriorityQueue<NodeID> priorityQueue;
 
+    /**
+     * The introducer inheritcs from the Servent because it ALSO acts as a Servent.
+     * We set a priority queue to ensure that the max(5, priorityQueue.size()) nodes are
+     * the K nodes that the priority queue selects.
+     *
+     * @throws IOException
+     */
     public Introducer() throws IOException {
         super();
         this.priorityQueue = new PriorityQueue<NodeID>(new Comparator<NodeID>() {
@@ -20,6 +27,12 @@ public class Introducer extends Servent {
         });
     }
 
+
+    /**
+     * This is the K nodes that the introducer will select. We pick the top 5 elements from our priority queue.
+     *
+     * @return
+     */
     @Override
     protected ArrayList<NodeID> getKNodes() {
         final ArrayList<NodeID> returnList = new ArrayList<NodeID>();
@@ -32,6 +45,14 @@ public class Introducer extends Servent {
         return returnList;
     }
 
+
+    /**
+     * We clear the priority queue and add in the new nodes into the priority queue.
+     * We do this because the priority queue has to be upated on nodes that have been failed or not.
+     *
+     * @param incomingPacket - The incoming packet from other servents.
+     * @throws IOException
+     */
     @Override
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         super.retrieveData(incomingPacket);

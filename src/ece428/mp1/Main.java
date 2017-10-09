@@ -7,6 +7,9 @@ public class Main {
 
 
     public static void main(final String[] args) throws Exception {
+        /**
+         * Check which node is the introducer vs a regular servent
+         */
         final Integer machineNumber = Integer.parseInt(new BufferedReader(new FileReader("../number.txt")).readLine());
         if (machineNumber == 1) {
             final Introducer introducer = new Introducer();

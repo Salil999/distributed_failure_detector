@@ -1,12 +1,16 @@
 package ece428.mp1;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MembershipList {
+
 
     ConcurrentHashMap<NodeID, MembershipListEntry> listEntries;
 
@@ -18,81 +22,117 @@ public class MembershipList {
         this.listEntries = listEntries;
     }
 
-    public synchronized static long getCurrentTime() {
+    /**
+     * Gets the current time in milliseconds.
+     *
+     * @return - Current time.
+     */
+    public static long getCurrentTime() {
         return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
-    public synchronized void addNewNode(final NodeID nodeID) {
 
+    /**
+     * Adds a node into the membership list.
+     *
+     * @param nodeID - The node we want to add into the membership list.
+     */
+    public void addNewNode(final NodeID nodeID) {
         this.listEntries.put(
                 nodeID,
                 new MembershipListEntry()
         );
     }
 
-    public synchronized void addNewNode(final NodeID nodeID, final int heartBeatCounter) {
+    /**
+     * Adds a node into the membership list.
+     *
+     * @param nodeID           - The node we want to add into the membership list.
+     * @param heartBeatCounter - The heartbeat counter we want to set when we add the node.
+     */
+    public void addNewNode(final NodeID nodeID, final int heartBeatCounter) {
         this.listEntries.put(
                 nodeID,
                 new MembershipListEntry(heartBeatCounter)
         );
     }
 
+    /**
+     * Pretty printing for debugging.
+     *
+     * @return Pretty printing of the string.
+     */
     @Override
     public String toString() {
-        String s = new ObjectSerialization(this).toString();
-        s = "Node:\n\t" + s
-                .replace("|", "\nEntry:\n\t")
-                .replace(",", "\n\t")
-                .replace("`", "\n\nNode:\n\t");
-        return s;
+        final StringBuilder sb = new StringBuilder();
+        for (final NodeID nodeID : this.listEntries.keySet()) {
+            final MembershipListEntry curr = this.listEntries.get(nodeID);
+            sb
+                    .append("\n")
+                    .append("Key: ")
+                    .append(nodeID.getIPAddress().getHostName()).append(" | ")
+                    .append("Value: ")
+                    .append(curr.getHeartBeatCounter()).append(", ")
+                    .append(curr.getLocalTime()).append(", ")
+                    .append(curr.getAlive());
+        }
+        return sb.toString();
     }
 
-    public synchronized void updateEntries(final MembershipList other) {
+    /**
+     * This is the merge function for a membership list. It merges the two membership lists and updates
+     * the list in accordance to the gossiping algorithm.
+     *
+     * @param other A different node's membership list.
+     */
+    public void updateEntries(final MembershipList other) throws IOException {
         final Iterator it = other.listEntries.entrySet().iterator();
         while (it.hasNext()) {
-            final HashMap.Entry pair = (HashMap.Entry) it.next();
+            final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) it.next();
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry otherEntry = other.listEntries.get(otherKey);
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (thisEntry != null) {
-
                 final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
-
+                if (otherHeartBeatCount < 4 && thisEntry.getLocalTime() < 0) {
+                    new PrintStream(new FileOutputStream(new File("../output.txt"))).println(("NODE REJOIN!\n"));
+                    System.out.println("REJOINED!");
+                    this.addNewNode(otherKey, 0);
+                }
                 if (otherHeartBeatCount > thisHeartBeatCount) {
                     thisEntry.setHeartBeatCounter(otherHeartBeatCount);
                     thisEntry.updateLocalTime();
                 }
-//                System.out.println(otherKey.getIPAddress().getHostName() + " : " + this.listEntries.get(otherKey).getHeartBeatCounter());
             } else if (otherEntry.getAlive()) {
                 this.addNewNode(otherKey, otherEntry.getHeartBeatCounter());
             }
         }
-    }
 
-    public synchronized ConcurrentHashMap<NodeID, MembershipListEntry> removeEntries() {
-        final ConcurrentHashMap<NodeID, MembershipListEntry> newEntries = new ConcurrentHashMap<NodeID, MembershipListEntry>();
-
-        final Iterator it = this.listEntries.entrySet().iterator();
-        while (it.hasNext()) {
-            final HashMap.Entry pair = (HashMap.Entry) it.next();
-            final NodeID key = (NodeID) pair.getKey();
-            final MembershipListEntry entry = this.listEntries.get(key);
-            if (entry != null) {
-                final long currentTime = getCurrentTime();
-                if (currentTime - entry.getLocalTime() < 12000) {
-                    if (currentTime - entry.getLocalTime() >= 6000) {
-                        entry.setAlive(false);
-                    }
-                    newEntries.put(key, entry);
+        final Iterator i = this.listEntries.entrySet().iterator();
+        while (i.hasNext()) {
+            final ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) i.next();
+            final NodeID otherKey = (NodeID) pair.getKey();
+            final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
+            if (getCurrentTime() - thisEntry.getLocalTime() > 3000) {
+                if (thisEntry.getAlive()) {
+                    new PrintStream(new FileOutputStream(new File("../output.txt"))).println(("NODE DIED!\n"));
+                    System.out.println("DIED");
                 }
+                thisEntry.setAlive(false);
+                thisEntry.setLocalTime(-1);
+            } else {
+                thisEntry.setAlive(true);
             }
         }
-        return newEntries;
     }
 
-
-    public synchronized void incrementHeartBeatCount(final NodeID nodeID) {
+    /**
+     * Increments a node's heartbeat counter.
+     *
+     * @param nodeID - A node in the network.
+     */
+    public void incrementHeartBeatCount(final NodeID nodeID) {
         final MembershipListEntry entry = this.listEntries.get(nodeID);
         if (entry != null) {
             entry.setHeartBeatCounter(entry.getHeartBeatCounter() + 1);

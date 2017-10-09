@@ -27,7 +27,6 @@ public class MembershipListEntry {
     public MembershipListEntry(final int heartBeatCounter, final long localTime, final boolean isAlive, final long failedTime) {
         this.heartBeatCounter = heartBeatCounter;
         this.localTime = localTime;
-        this.failedTime = failedTime;
         this.isAlive = isAlive;
     }
 
@@ -35,79 +34,65 @@ public class MembershipListEntry {
         return this.failedTime;
     }
 
-    public void setFailedTime(final long failedTime) {
-        this.failedTime = failedTime;
-    }
-
-    public synchronized int getHeartBeatCounter() {
+    /**
+     * Gets the heartbeat counter for this node.
+     *
+     * @return
+     */
+    public int getHeartBeatCounter() {
         return this.heartBeatCounter;
     }
 
-    public synchronized void setHeartBeatCounter(final int heartBeatCounter) {
+    /**
+     * Sets the heartbeat counter for this node.
+     *
+     * @param heartBeatCounter - The heartbeat counter.
+     */
+    public void setHeartBeatCounter(final int heartBeatCounter) {
         this.heartBeatCounter = heartBeatCounter;
     }
 
-    public synchronized long getLocalTime() {
+    /**
+     * Gets the local time for this entry.
+     *
+     * @return Local time.
+     */
+    public long getLocalTime() {
         return this.localTime;
     }
 
-    public synchronized void updateLocalTime() {
+    /**
+     * Sets the local time for this entry.
+     *
+     * @param localTime - The local time.
+     */
+    public void setLocalTime(final long localTime) {
+        this.localTime = localTime;
+    }
+
+    /**
+     * Updates the local time to the current time since epoch in milliseconds.
+     */
+    public void updateLocalTime() {
         this.localTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
-    public synchronized boolean getAlive() {
+    /**
+     * Checks whether or not the node is alive.
+     *
+     * @return Boolean indicating if the node is alive or not.
+     */
+    public boolean getAlive() {
         return this.isAlive;
     }
 
-    public synchronized void setAlive(final boolean alive) {
+    /**
+     * Sets the living status of a node.
+     *
+     * @param alive - Boolean indicating status.
+     */
+    public void setAlive(final boolean alive) {
         this.isAlive = alive;
     }
 
-//    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
-//        final int otherHeartBeatCount = other.getHeartBeatCounter();
-//        final int thisHeartBeatCount = this.getHeartBeatCounter();
-//
-//        if (this.isAlive && otherHeartBeatCount > thisHeartBeatCount) {
-//            System.out.println("updating entry");
-//            this.setHeartBeatCounter(otherHeartBeatCount);
-//            this.updateLocalTime();
-//        }
-//    }
-
-
-//    public synchronized void updateEntry(final MembershipListEntry other, final NodeID nodeID) {
-//        final int otherHeartBeatCount = other.getHeartBeatCounter();
-//        final int thisHeartBeatCount = this.getHeartBeatCounter();
-//        boolean shouldKill = false;
-//
-//        if (nodeID.getIPAddress().getHostName().equals("fa17-cs425-g39-05.cs.illinois.edu")) {
-//            System.out.println(otherHeartBeatCount);
-//        }
-//
-//        if (!other.getAlive()) {
-//            shouldKill = true;
-//        }
-//
-//        if (otherHeartBeatCount > thisHeartBeatCount) {
-//            if (other.getAlive()) {
-//                this.setHeartBeatCounter(otherHeartBeatCount);
-//                this.updateLocalTime();
-//                this.setFailedTime(-1);
-//                this.setAlive(true);
-//                shouldKill = false;
-//            } else {
-//                shouldKill = true;
-//            }
-//        } else if (otherHeartBeatCount == thisHeartBeatCount) {
-//            shouldKill = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-//                    - this.getLocalTime() >= 3000;
-//        }
-//
-//        System.out.println("shouldKill: " + shouldKill);
-//        if (shouldKill && this.getFailedTime() < 0) {
-//            System.out.println("killing 5");
-//            this.setAlive(false);
-//            this.setFailedTime(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-//        }
-//    }
 }
