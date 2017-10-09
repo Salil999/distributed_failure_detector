@@ -136,7 +136,7 @@ public class Servent {
                         Servent.this.heartBeatList = getKNodes();
 
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
-                            heartBeat(nodeID, membershipList);
+                            heartBeat(nodeID);
                         }
                         Thread.sleep(500);
                     }
