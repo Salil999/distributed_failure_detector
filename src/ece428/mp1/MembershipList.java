@@ -92,7 +92,7 @@ public class MembershipList {
                 final int otherHeartBeatCount = otherEntry.getHeartBeatCounter();
                 final int thisHeartBeatCount = thisEntry.getHeartBeatCounter();
                 if (otherHeartBeatCount < 4 && thisEntry.getLocalTime() < 0) {
-                    System.out.println("NODE REJOIN!");
+                    System.out.println("NODE REJOIN!\n");
                     this.addNewNode(otherKey, 0);
                 }
                 if (otherHeartBeatCount > thisHeartBeatCount) {
@@ -110,7 +110,9 @@ public class MembershipList {
             final NodeID otherKey = (NodeID) pair.getKey();
             final MembershipListEntry thisEntry = this.listEntries.get(otherKey);
             if (getCurrentTime() - thisEntry.getLocalTime() > 3000) {
-                System.out.println("NODE DIED!");
+                if (thisEntry.getAlive()) {
+                    System.out.println("NODE DIED!\n");
+                }
                 thisEntry.setAlive(false);
                 thisEntry.setLocalTime(-1);
             } else {
