@@ -116,8 +116,7 @@ public class Servent {
 //        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         selfInMembershipList.updateLocalTime();
-        System.out.println(this.membershipList.toString());
-        System.out.println(new ObjectSerialization(data).toString().getBytes().length);
+//        System.out.println(this.membershipList.toString());
 //        System.out.println("Length: " + incomingPacket.getData().length);
     }
 
@@ -190,6 +189,7 @@ public class Servent {
             );
 
             final byte[] data = new ObjectSerialization(Servent.this.membershipList).toString().getBytes();
+            System.out.println(new ObjectSerialization(Servent.this.membershipList).toString().getBytes().length);
             final DatagramPacket sendPacket = new DatagramPacket(
                     data, data.length,
                     nodeID.getIPAddress(),
