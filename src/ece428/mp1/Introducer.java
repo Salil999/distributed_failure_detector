@@ -57,7 +57,6 @@ public class Introducer extends Servent {
     protected void retrieveData(final DatagramPacket incomingPacket) throws IOException {
         super.retrieveData(incomingPacket);
         this.priorityQueue.clear();
-
         final Iterator it = this.membershipList.listEntries.entrySet().iterator();
         while (it.hasNext()) {
             final HashMap.Entry pair = (HashMap.Entry) it.next();

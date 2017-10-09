@@ -50,7 +50,6 @@ public class Servent {
         this.membershipList.addNewNode(this.self);
         this.membershipList.addNewNode(this.INTRODUCER_NODE);
 
-
         this.serverSocket = new DatagramSocket(
                 SEND_PORT,
                 inetAddress
@@ -74,7 +73,7 @@ public class Servent {
     private void startServer() {
         new Thread() {
             @Override
-            public void run() {
+            public synchronized void run() {
                 try {
                     while (true) {
                         final byte[] incomingByteStream = new byte[(int) (Math.pow(2, 10) * Servent.this.membershipList.listEntries.size())];
@@ -92,6 +91,7 @@ public class Servent {
                     e.printStackTrace();
                 }
             }
+
         }.start();
     }
 
@@ -129,14 +129,14 @@ public class Servent {
     private void heartBeat() {
         new Thread() {
             @Override
-            public void run() {
+            public synchronized void run() {
                 try {
                     while (true) {
                         Servent.this.membershipList.incrementHeartBeatCount(Servent.this.self);
                         Servent.this.heartBeatList = getKNodes();
 
                         for (final NodeID nodeID : Servent.this.heartBeatList) {
-                            heartBeat(nodeID);
+                            heartBeat(nodeID, membershipList);
                         }
                         Thread.sleep(500);
                     }

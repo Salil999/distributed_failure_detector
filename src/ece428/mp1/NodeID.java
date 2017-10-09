@@ -27,7 +27,7 @@ public class NodeID {
      * @return Boolean indicating whether or not the objects are the same.
      */
     @Override
-    public boolean equals(final Object obj) {
+    public synchronized boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }
@@ -46,7 +46,7 @@ public class NodeID {
      * @return - Hashed value for the IPAddress member variable.
      */
     @Override
-    public int hashCode() {
+    public synchronized int hashCode() {
 //        System.out.println(this.IPAddress.getHostName().hashCode() + "\n\n");
         return this.IPAddress.getHostName().hashCode();
     }
