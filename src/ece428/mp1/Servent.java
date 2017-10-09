@@ -100,6 +100,7 @@ public class Servent {
         other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         System.out.println(this.membershipList.toString());
+        
     }
 
 
