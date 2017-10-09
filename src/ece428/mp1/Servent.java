@@ -97,7 +97,7 @@ public class Servent {
             selfInMembershipList.setHeartBeatCounter(selfInOther.getHeartBeatCounter());
         }
 
-        other.listEntries.remove(this.self);
+//        other.listEntries.remove(this.self);
         this.membershipList.updateEntries(other);
         System.out.println(this.membershipList.toString());
 
@@ -148,6 +148,7 @@ public class Servent {
             }
         }
         returnList.add(this.INTRODUCER_NODE);
+        returnList.add(this.self);
         return returnList;
     }
 
